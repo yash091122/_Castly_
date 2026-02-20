@@ -3,14 +3,38 @@ import { getAllMovies as getStaticMovies, getMovieById as getStaticMovieById } f
 import { getAllTvShows as getStaticTvShows, getTvShowById as getStaticTvShowById } from '../data/tvShows';
 
 // ============================================
-// CONTENT SERVICE - Fetches from Supabase with static fallback
+// CONTENT SERVICE - Prioritizes static data over Supabase
 // ============================================
+
+// Set to true to use static data files as primary source
+const USE_STATIC_DATA = true;
 
 // ============================================
 // MOVIES
 // ============================================
 
 export const getMovies = async (filters = {}) => {
+    // PRIORITIZE STATIC DATA
+    if (USE_STATIC_DATA) {
+        console.log('[ContentService] Using static movies data');
+        let movies = getStaticMovies();
+        
+        // Apply filters if provided
+        if (filters.genre) {
+            movies = movies.filter(m => m.genre === filters.genre || m.genre?.includes(filters.genre));
+        }
+        if (filters.search) {
+            const query = filters.search.toLowerCase();
+            movies = movies.filter(m => 
+                m.title?.toLowerCase().includes(query) ||
+                m.description?.toLowerCase().includes(query)
+            );
+        }
+        
+        return movies;
+    }
+
+    // Fallback to database
     try {
         let query = supabase
             .from('movies')
@@ -56,6 +80,16 @@ export const getMovies = async (filters = {}) => {
 };
 
 export const getMovieById = async (id) => {
+    // PRIORITIZE STATIC DATA
+    if (USE_STATIC_DATA) {
+        const movie = getStaticMovieById(id);
+        if (movie) {
+            console.log('[ContentService] Using static movie:', id);
+            return movie;
+        }
+    }
+
+    // Fallback to database
     try {
         const { data, error } = await supabase
             .from('movies')
@@ -87,6 +121,12 @@ export const getMovieById = async (id) => {
 };
 
 export const getTrendingMovies = async (limit = 10) => {
+    // PRIORITIZE STATIC DATA
+    if (USE_STATIC_DATA) {
+        return getStaticMovies().slice(0, limit);
+    }
+
+    // Fallback to database
     try {
         const { data, error } = await supabase
             .from('movies')
@@ -119,6 +159,27 @@ export const getTrendingMovies = async (limit = 10) => {
 // ============================================
 
 export const getTvShows = async (filters = {}) => {
+    // PRIORITIZE STATIC DATA
+    if (USE_STATIC_DATA) {
+        console.log('[ContentService] Using static TV shows data');
+        let shows = getStaticTvShows();
+        
+        // Apply filters if provided
+        if (filters.genre) {
+            shows = shows.filter(s => s.genre?.includes(filters.genre));
+        }
+        if (filters.search) {
+            const query = filters.search.toLowerCase();
+            shows = shows.filter(s => 
+                s.title?.toLowerCase().includes(query) ||
+                s.description?.toLowerCase().includes(query)
+            );
+        }
+        
+        return shows;
+    }
+
+    // Fallback to database
     try {
         let query = supabase
             .from('series')
@@ -160,6 +221,16 @@ export const getTvShows = async (filters = {}) => {
 };
 
 export const getTvShowById = async (id) => {
+    // PRIORITIZE STATIC DATA
+    if (USE_STATIC_DATA) {
+        const show = getStaticTvShowById(id);
+        if (show) {
+            console.log('[ContentService] Using static TV show:', id);
+            return show;
+        }
+    }
+
+    // Fallback to database
     try {
         const { data, error } = await supabase
             .from('series')
