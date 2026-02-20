@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTvProgress } from '../context/TvProgressContext';
 import videoSyncManager from '../utils/videoSyncManager';
 import '../styles/player.css';
-import Loader from '../components/Loader';
+import { PlayerSkeleton } from '../components/skeletons';
 
 function TvPlayer() {
     const { showId, season, episode } = useParams();
@@ -39,6 +39,7 @@ function TvPlayer() {
     const [isSyncing, setIsSyncing] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
     const [isVideoLoading, setIsVideoLoading] = useState(false);
+    const [videoError, setVideoError] = useState(null);
 
     // Standardized Controls State
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
@@ -171,6 +172,11 @@ function TvPlayer() {
         const handleWaiting = () => setIsVideoLoading(true);
         const handleCanPlay = () => setIsVideoLoading(false);
         const handlePlaying = () => setIsVideoLoading(false);
+        const handleError = (e) => {
+            console.error('Video error:', e);
+            setVideoError('Failed to load episode. Please try again.');
+            setIsVideoLoading(false);
+        };
 
         video.addEventListener('timeupdate', updateTime);
         video.addEventListener('loadedmetadata', updateDuration);
@@ -179,6 +185,7 @@ function TvPlayer() {
         video.addEventListener('waiting', handleWaiting);
         video.addEventListener('canplay', handleCanPlay);
         video.addEventListener('playing', handlePlaying);
+        video.addEventListener('error', handleError);
 
         return () => {
             video.removeEventListener('timeupdate', updateTime);
@@ -188,6 +195,7 @@ function TvPlayer() {
             video.removeEventListener('waiting', handleWaiting);
             video.removeEventListener('canplay', handleCanPlay);
             video.removeEventListener('playing', handlePlaying);
+            video.removeEventListener('error', handleError);
         };
     }, [currentEpisode]);
 
@@ -253,6 +261,7 @@ function TvPlayer() {
 
     const skip = (seconds) => {
         const video = videoRef.current;
+        if (!video || !video.duration) return;
         video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + seconds));
         resetHideTimer();
     };
@@ -269,12 +278,14 @@ function TvPlayer() {
 
     // Progress bar seek
     const handleProgressSeek = (e) => {
-        if (!progressRef.current || !videoRef.current) return;
+        if (!progressRef.current || !videoRef.current || !videoRef.current.duration) return;
         const rect = progressRef.current.getBoundingClientRect();
         const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
         const newTime = pos * videoRef.current.duration;
-        videoRef.current.currentTime = newTime;
-        setProgress(pos * 100);
+        if (!isNaN(newTime)) {
+            videoRef.current.currentTime = newTime;
+            setProgress(pos * 100);
+        }
         resetHideTimer();
     };
 
@@ -447,6 +458,19 @@ function TvPlayer() {
                         <div className="spinner-ring"></div>
                         <div className="spinner-ring"></div>
                         <div className="spinner-ring"></div>
+                    </div>
+                </div>
+            )}
+
+            {/* Video Error */}
+            {videoError && (
+                <div className="player-error-overlay">
+                    <div className="player-error-content">
+                        <i className="fas fa-exclamation-triangle"></i>
+                        <p>{videoError}</p>
+                        <button onClick={() => window.location.reload()} className="player-error-retry">
+                            Retry
+                        </button>
                     </div>
                 </div>
             )}
