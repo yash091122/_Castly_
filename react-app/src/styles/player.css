@@ -1,0 +1,716 @@
+/* Player Container - Fullscreen */
+.player-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    cursor: none;
+}
+
+.player-container.show-controls {
+    cursor: default;
+}
+
+/* Video */
+.player-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+/* Back Button */
+.player-back-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.player-back-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.player-back-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.player-back-btn i {
+    font-size: 1rem;
+}
+
+/* Sync Badge */
+.player-sync-badge {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 0.85rem;
+    z-index: 10;
+}
+
+/* Center Play Button */
+.player-center-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.player-center-play:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.player-center-play i {
+    margin-left: 4px;
+}
+
+/* ============================================
+   CONTROL BAR - Matching Reference Image
+   ============================================ */
+.player-control-bar {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 20px;
+    height: 64px;
+    min-width: 580px;
+    max-width: 760px;
+    width: auto;
+
+    /* Frosted glass - very light, almost white like the image */
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(60px) saturate(200%);
+    -webkit-backdrop-filter: blur(60px) saturate(200%);
+
+    /* Pill shape - very rounded */
+    border-radius: 50px;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.04);
+
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.player-control-bar.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Control Groups */
+.player-controls-left,
+.player-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Control Buttons - Medium gray icons like the image */
+.player-btn {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: #5a5a5a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.15s ease;
+    font-size: 1rem;
+}
+
+.player-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #3a3a3a;
+}
+
+.player-btn:active {
+    transform: scale(0.92);
+}
+
+/* Center Info Section */
+.player-info-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+}
+
+/* Time Display */
+.player-time-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Mono', 'Monaco', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #3a3a3a;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.player-current-time {
+    color: #2a2a2a;
+}
+
+.player-time-separator {
+    color: #8a8a8a;
+}
+
+.player-total-time {
+    color: #6a6a6a;
+}
+
+.player-info-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    max-width: 220px;
+    gap: 2px;
+}
+
+.player-info-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2a2a2a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    letter-spacing: -0.1px;
+}
+
+/* Interactive Progress bar below the title */
+.player-info-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    margin-top: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: height 0.15s ease;
+}
+
+.player-info-progress:hover {
+    height: 6px;
+}
+
+.player-info-progress-fill {
+    height: 100%;
+    background: #4a4a4a;
+    border-radius: 4px;
+    transition: width 0.1s linear;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.player-info-progress-thumb {
+    width: 12px;
+    height: 12px;
+    background: #3a3a3a;
+    border-radius: 50%;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.player-info-progress:hover .player-info-progress-thumb {
+    opacity: 1;
+}
+
+.player-btn-more {
+    margin-left: 4px;
+}
+
+/* Loading State */
+.player-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    gap: 16px;
+}
+
+.player-loading a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .player-control-bar {
+        min-width: auto;
+        width: calc(100% - 48px);
+        max-width: 540px;
+        bottom: 24px;
+        padding: 10px 16px;
+        height: 56px;
+    }
+
+    .player-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .player-time-display {
+        font-size: 0.8rem;
+    }
+
+    .player-info-text {
+        min-width: 100px;
+        max-width: 160px;
+    }
+
+    .player-info-title {
+        font-size: 0.8rem;
+    }
+
+    .player-back-btn {
+        top: 16px;
+        left: 16px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 540px) {
+    .player-control-bar {
+        width: calc(100% - 32px);
+        bottom: 20px;
+        padding: 8px 12px;
+        height: 52px;
+        gap: 6px;
+    }
+
+    .player-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+
+    .player-time-display {
+        font-size: 0.75rem;
+    }
+
+    .player-info-text {
+        min-width: 80px;
+        max-width: 120px;
+    }
+
+    .player-info-title {
+        font-size: 0.75rem;
+    }
+
+    .player-btn-more {
+        display: none;
+    }
+
+    .player-center-play {
+        width: 64px;
+        height: 64px;
+        font-size: 1.4rem;
+    }
+
+    /* Hide PIP button on small screens */
+    .player-controls-right .player-btn:nth-child(2) {
+        display: none;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 400px) {
+    .player-control-bar {
+        padding: 6px 10px;
+        height: 48px;
+    }
+
+    .player-info-center {
+        padding: 0 6px;
+        gap: 8px;
+    }
+
+    .player-time-display {
+        font-size: 0.7rem;
+    }
+
+    .player-info-text {
+        min-width: 60px;
+        max-width: 80px;
+    }
+
+    .player-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    /* Hide captions button */
+    .player-controls-right .player-btn:nth-child(1) {
+        display: none;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-height: 450px) and (orientation: landscape) {
+    .player-control-bar {
+        bottom: 16px;
+    }
+
+    .player-back-btn {
+        top: 12px;
+        left: 12px;
+    }
+}
+
+/* Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    .player-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .player-info-progress {
+        height: 6px;
+    }
+
+    .player-info-progress-thumb {
+        opacity: 1;
+        width: 16px;
+        height: 16px;
+        right: -8px;
+    }
+}
+
+/* ============================================
+   NEW FEATURES & POLISH
+   ============================================ */
+
+/* Volume Slider - Dark Glass Theme */
+.volume-control-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+
+.volume-slider-popup {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 120px;
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 12px 0;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    /* Remove margin-bottom to avoid gap */
+    margin-bottom: 0;
+    /* Add padding to bottom to push content up if needed, or just position it */
+    padding-bottom: 20px;
+    /* Adjust bottom to create visual space but keep hit area connected? 
+       Actually, best is to have it touch the container or overlap slightly. 
+       Let's use bottom: 30px (since container is 40px high, button is centered).
+    */
+    bottom: 30px;
+
+    animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 20;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    width: 80px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    transform: rotate(-90deg);
+    margin-top: 40px;
+    /* Center verticall within the rotated space */
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: transform 0.1s;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Play/Pause Feedback Animation */
+.player-center-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88px;
+    height: 88px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.animate-ping {
+    animation: pingScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pingScale {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0;
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+}
+
+/* Control Groups */
+.player-control-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-btn.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+/* Generic Popup Menu (Speed, Quality) */
+.player-popup-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    /* Position overlap */
+    margin-bottom: 0;
+    bottom: 45px;
+    /* Sits above the button */
+
+    animation: slideUpFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 25;
+    min-width: 80px;
+}
+
+.popup-item {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.popup-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.popup-item.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Specific Menu Tweaks */
+.speed-menu {
+    min-width: 70px;
+}
+
+.quality-menu {
+    min-width: 90px;
+}
+
+/* ============================================
+   BUFFERING / VIDEO LOADING OVERLAY
+   ============================================ */
+
+.player-buffering-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.player-buffering-spinner {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.spinner-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    animation: spinnerRotate 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.spinner-ring:nth-child(1) {
+    border-top-color: rgba(255, 255, 255, 0.9);
+    animation-delay: -0.45s;
+}
+
+.spinner-ring:nth-child(2) {
+    border-top-color: rgba(255, 255, 255, 0.5);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    animation-delay: -0.3s;
+    inset: 8px;
+}
+
+.spinner-ring:nth-child(3) {
+    border-top-color: rgba(255, 255, 255, 0.25);
+    animation-delay: -0.15s;
+    inset: 16px;
+}
+
+@keyframes spinnerRotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.player-buffering-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
