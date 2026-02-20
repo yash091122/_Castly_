@@ -263,7 +263,8 @@ io.on('connection', (socket) => {
 
         const room = rooms.get(roomId);
 
-        // Update movie info if host is joining
+        // CRITICAL FIX: Only update content if user is host
+        // Guests should always receive the host's content from room state
         if (isHost) {
             if (movieId) room.movieId = movieId;
             if (movieTitle) room.movieTitle = movieTitle;
@@ -272,6 +273,16 @@ io.on('connection', (socket) => {
             if (currentEpisode) room.currentEpisode = currentEpisode;
             if (videoUrl) room.videoUrl = videoUrl;
             console.log(`   👑 Host updated room content:`, { movieId, movieTitle, contentType, currentSeason, currentEpisode });
+        } else {
+            // Guest joining - log what they'll receive
+            console.log(`   👤 Guest joining - will sync to host's content:`, { 
+                hostMovieId: room.movieId, 
+                hostMovieTitle: room.movieTitle, 
+                hostContentType: room.contentType,
+                hostSeason: room.currentSeason,
+                hostEpisode: room.currentEpisode,
+                guestRequestedMovieId: movieId // Log what guest tried to join with
+            });
         }
 
         room.participants.set(socket.id, {
