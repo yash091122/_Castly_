@@ -122,7 +122,7 @@ export const movies = {
         posterUrl: 'https://www.scenetheworld.com/wp-content/uploads/2017/03/Devdas-800x500.jpg',
         backdropUrl: '/assets/devdas-backdrop.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=Yc6dFJ6uX3s',
-        videoUrl: sampleVideos[2]
+        videoUrl: 'https://s3.tebi.io/moviesott/Devdas %282002%29 Bollywood Hindi Movie HD 720p ESub.mkv'
     }
 };
 
