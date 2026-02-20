@@ -8,6 +8,21 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 
+// Health check endpoint for deployment platforms
+app.get('/', (req, res) => {
+    res.json({ 
+        status: 'ok', 
+        service: 'Castly Sync Server',
+        uptime: process.uptime(),
+        rooms: rooms.size,
+        onlineUsers: onlineUsers.size
+    });
+});
+
+app.get('/health', (req, res) => {
+    res.json({ status: 'healthy' });
+});
+
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {

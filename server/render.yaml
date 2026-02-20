@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: castly-sync-server
+    env: node
+    buildCommand: npm install
+    startCommand: node syncServer.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
