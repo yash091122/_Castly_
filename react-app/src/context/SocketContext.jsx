@@ -15,7 +15,7 @@ let globalHeartbeatInterval = null;
 async function wakeUpServer() {
     try {
         console.log('🔔 Waking up server...');
-        const response = await fetch(SOCKET_URL, { 
+        const response = await fetch(SOCKET_URL, {
             method: 'GET',
             signal: AbortSignal.timeout(10000)
         });
@@ -89,7 +89,7 @@ export function SocketProvider({ children }) {
         // Wake up server before connecting (for free tier services)
         const initializeSocket = async () => {
             await wakeUpServer();
-            
+
             const socket = io(SOCKET_URL, {
                 reconnection: true,
                 reconnectionDelay: 1000,
@@ -117,102 +117,102 @@ export function SocketProvider({ children }) {
                     userId: user.id,
                     userData: {
                         name: user.user_metadata?.display_name || user.email,
-                    avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
-                }
-            });
-
-            // Send immediate heartbeat
-            socket.emit('heartbeat', { userId: user.id });
-            console.log('💓 Sent initial heartbeat for user:', user.id);
-        });
-
-        socket.on('disconnect', (reason) => {
-            console.log('❌ Socket disconnected:', reason);
-            setIsConnected(false);
-
-            // Auto-reconnect unless manually disconnected
-            if (reason === 'io server disconnect') {
-                socket.connect();
-            }
-        });
-
-        socket.on('reconnect_attempt', (attemptNumber) => {
-            reconnectAttempts.current = attemptNumber;
-            console.log(`🔄 Reconnection attempt #${attemptNumber}...`);
-        });
-
-        socket.on('reconnect', (attemptNumber) => {
-            console.log(`✅ Reconnected after ${attemptNumber} attempts`);
-            setIsConnected(true);
-
-            // Re-announce user is online after reconnection
-            socket.emit('user:online', {
-                userId: user.id,
-                userData: {
-                    name: user.user_metadata?.display_name || user.email,
-                    avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
-                }
-            });
-        });
-
-        socket.on('reconnect_error', (error) => {
-            console.error('❌ Reconnection error:', error.message);
-        });
-
-        socket.on('reconnect_failed', () => {
-            console.error('❌ Reconnection failed after all attempts');
-        });
-
-        socket.on('users:online', (users) => {
-            console.log('📋 Received online users list:', users.length, users);
-            setOnlineUsers(users);
-        });
-
-        socket.on('user:status', (payload) => {
-            const statusUserId = payload.userId || payload.odId;
-            const online = payload.online;
-            const statusUserData = payload.userData;
-
-            console.log(`👤 User status update: ${statusUserId} is now ${online ? 'ONLINE' : 'OFFLINE'}`);
-            setOnlineUsers(prev => {
-                if (online) {
-                    const exists = prev.find(u => u.userId === statusUserId);
-                    if (exists) {
-                        console.log(`  ℹ️  User ${statusUserId} already in list`);
-                        return prev;
+                        avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
                     }
-                    console.log(`  ✅ Adding user ${statusUserId} to online list`);
-                    return [...prev, { userId: statusUserId, name: statusUserData?.name, avatar: statusUserData?.avatar }];
-                } else {
-                    console.log(`  ❌ Removing user ${statusUserId} from online list`);
-                    return prev.filter(u => u.userId !== statusUserId);
+                });
+
+                // Send immediate heartbeat
+                socket.emit('heartbeat', { userId: user.id });
+                console.log('💓 Sent initial heartbeat for user:', user.id);
+            });
+
+            socket.on('disconnect', (reason) => {
+                console.log('❌ Socket disconnected:', reason);
+                setIsConnected(false);
+
+                // Auto-reconnect unless manually disconnected
+                if (reason === 'io server disconnect') {
+                    socket.connect();
                 }
             });
-        });
 
-        // Debug: Listen for party invites to verify socket is receiving them
-        socket.on('party:invite', (data) => {
-            console.log('🎉 SocketContext: Received party:invite event!', data);
-        });
+            socket.on('reconnect_attempt', (attemptNumber) => {
+                reconnectAttempts.current = attemptNumber;
+                console.log(`🔄 Reconnection attempt #${attemptNumber}...`);
+            });
 
-        // Keep-alive ping and heartbeat every 15 seconds
-        if (globalHeartbeatInterval) {
-            clearInterval(globalHeartbeatInterval);
-        }
+            socket.on('reconnect', (attemptNumber) => {
+                console.log(`✅ Reconnected after ${attemptNumber} attempts`);
+                setIsConnected(true);
 
-        console.log('🔄 Starting heartbeat interval');
-        globalHeartbeatInterval = setInterval(() => {
-            if (globalSocket && globalSocket.connected) {
-                globalSocket.emit('ping');
-                globalSocket.emit('heartbeat', { userId: globalSocketUserId });
-                console.log('💓 Sent heartbeat for user:', globalSocketUserId);
-            } else {
-                console.log('⚠️ Cannot send heartbeat - socket not connected');
+                // Re-announce user is online after reconnection
+                socket.emit('user:online', {
+                    userId: user.id,
+                    userData: {
+                        name: user.user_metadata?.display_name || user.email,
+                        avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
+                    }
+                });
+            });
+
+            socket.on('reconnect_error', (error) => {
+                console.error('❌ Reconnection error:', error.message);
+            });
+
+            socket.on('reconnect_failed', () => {
+                console.error('❌ Reconnection failed after all attempts');
+            });
+
+            socket.on('users:online', (users) => {
+                console.log('📋 Received online users list:', users.length, users);
+                setOnlineUsers(users);
+            });
+
+            socket.on('user:status', (payload) => {
+                const statusUserId = payload.userId || payload.odId;
+                const online = payload.online;
+                const statusUserData = payload.userData;
+
+                console.log(`👤 User status update: ${statusUserId} is now ${online ? 'ONLINE' : 'OFFLINE'}`);
+                setOnlineUsers(prev => {
+                    if (online) {
+                        const exists = prev.find(u => u.userId === statusUserId);
+                        if (exists) {
+                            console.log(`  ℹ️  User ${statusUserId} already in list`);
+                            return prev;
+                        }
+                        console.log(`  ✅ Adding user ${statusUserId} to online list`);
+                        return [...prev, { userId: statusUserId, name: statusUserData?.name, avatar: statusUserData?.avatar }];
+                    } else {
+                        console.log(`  ❌ Removing user ${statusUserId} from online list`);
+                        return prev.filter(u => u.userId !== statusUserId);
+                    }
+                });
+            });
+
+            // Debug: Listen for party invites to verify socket is receiving them
+            socket.on('party:invite', (data) => {
+                console.log('🎉 SocketContext: Received party:invite event!', data);
+            });
+
+            // Keep-alive ping and heartbeat every 15 seconds
+            if (globalHeartbeatInterval) {
+                clearInterval(globalHeartbeatInterval);
             }
-        }, 4000);
-        
+
+            console.log('🔄 Starting heartbeat interval');
+            globalHeartbeatInterval = setInterval(() => {
+                if (globalSocket && globalSocket.connected) {
+                    globalSocket.emit('ping');
+                    globalSocket.emit('heartbeat', { userId: globalSocketUserId });
+                    console.log('💓 Sent heartbeat for user:', globalSocketUserId);
+                } else {
+                    console.log('⚠️ Cannot send heartbeat - socket not connected');
+                }
+            }, 4000);
+
         }; // End of initializeSocket
-        
+
         // Call the async initialization
         initializeSocket();
 
