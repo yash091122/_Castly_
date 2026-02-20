@@ -602,6 +602,18 @@ function WatchPartyRoom() {
           console.log('  ICE Connection State:', peer._pc.iceConnectionState);
           console.log('  Connection State:', peer._pc.connectionState);
         }
+        
+        // Clean up failed peer
+        if (err.message.includes('Connection failed') || err.message.includes('setRemoteDescription')) {
+          console.log('🧹 Cleaning up failed peer:', targetSocketId);
+          try {
+            peer.destroy();
+          } catch (e) {
+            console.log('  Peer already destroyed');
+          }
+          peersRef.current = peersRef.current.filter(p => p.socketId !== targetSocketId);
+          setPeers(prev => prev.filter(p => p.socketId !== targetSocketId));
+        }
       });
       
       peer.on('close', () => {
@@ -616,10 +628,8 @@ function WatchPartyRoom() {
         const state = peer._pc.iceConnectionState;
         console.log(`🧊 ICE Connection State (${targetSocketId}):`, state);
         
-        if (state === 'failed' || state === 'disconnected') {
-          console.warn(`⚠️ ICE connection ${state} for ${targetSocketId}, attempting ICE restart...`);
-          // Attempt ICE restart
-          peer._pc.restartIce?.();
+        if (state === 'failed') {
+          console.warn(`⚠️ ICE connection failed for ${targetSocketId}`);
         }
       });
 
@@ -824,37 +834,58 @@ function WatchPartyRoom() {
 
       if (existingPeer) {
         console.log('  ✅ Found existing peer, passing signal');
-        // Update name/avatar if improved
-        const newName = getNameForSocket(from, userName);
-        updatePeerData(from, { name: newName, avatar: userAvatar });
-        try {
-          existingPeer.peer.signal(signal);
-        } catch (err) {
-          console.error('❌ Signal error:', err);
-        }
-      } else {
-        // New peer - we're receiving, so NOT initiator
-        // CRITICAL FIX: Use streamRef.current instead of currentStream
-        const peerName = getNameForSocket(from, userName);
-        const localStream = streamRef.current;
-        console.log('🔗 Creating RECEIVER peer for:', from, 'with stream:', !!localStream);
-
-        if (localStream) {
-          console.log('  📹 Local stream details:', {
-            id: localStream.id,
-            active: localStream.active,
-            tracks: localStream.getTracks().map(t => ({
-              kind: t.kind,
-              id: t.id,
-              enabled: t.enabled,
-              readyState: t.readyState
-            }))
-          });
+        
+        // Check if peer is destroyed
+        if (existingPeer.peer.destroyed) {
+          console.warn('  ⚠️ Peer is destroyed, removing and creating new one');
+          peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+          setPeers(prev => prev.filter(p => p.socketId !== from));
+          // Fall through to create new peer
         } else {
-          console.warn('  ⚠️ NO LOCAL STREAM AVAILABLE - peer will be receive-only');
+          // Update name/avatar if improved
+          const newName = getNameForSocket(from, userName);
+          updatePeerData(from, { name: newName, avatar: userAvatar });
+          try {
+            existingPeer.peer.signal(signal);
+            return; // Exit early if successful
+          } catch (err) {
+            console.error('❌ Signal error:', err);
+            // If signaling fails, clean up and create new peer
+            try {
+              existingPeer.peer.destroy();
+            } catch (e) {
+              console.log('  Peer already destroyed');
+            }
+            peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+            setPeers(prev => prev.filter(p => p.socketId !== from));
+            // Fall through to create new peer
+          }
         }
+      }
+      
+      // Create new peer (either no existing peer or existing one failed)
+      // New peer - we're receiving, so NOT initiator
+      // CRITICAL FIX: Use streamRef.current instead of currentStream
+      const peerName = getNameForSocket(from, userName);
+      const localStream = streamRef.current;
+      console.log('🔗 Creating RECEIVER peer for:', from, 'with stream:', !!localStream);
 
-        const peer = new SimplePeer({
+      if (localStream) {
+        console.log('  📹 Local stream details:', {
+          id: localStream.id,
+          active: localStream.active,
+          tracks: localStream.getTracks().map(t => ({
+            kind: t.kind,
+            id: t.id,
+            enabled: t.enabled,
+            readyState: t.readyState
+          }))
+        });
+      } else {
+        console.warn('  ⚠️ NO LOCAL STREAM AVAILABLE - peer will be receive-only');
+      }
+
+      const peer = new SimplePeer({
           initiator: false,
           trickle: true,
           stream: localStream || null,
@@ -886,68 +917,68 @@ function WatchPartyRoom() {
           answerOptions: {
             offerToReceiveAudio: true,
             offerToReceiveVideo: true
-          }
+      }
+      });
+
+      const myName = profile?.display_name || user?.email?.split('@')[0];
+      const myAvatar = profile?.avatar_url;
+
+      peer.on("signal", sig => {
+        console.log('📡 Sending signal to:', from, 'type:', sig.type, 'myName:', myName);
+        if (sig.type === 'offer' || sig.type === 'answer') {
+          console.log('  SDP:', sig.sdp?.substring(0, 100) + '...');
+        } else if (sig.candidate) {
+          console.log('  ICE Candidate:', sig.candidate.candidate?.substring(0, 80));
+        }
+        socket.emit("signal", {
+          to: from,
+          from: socket.id,
+          signal: sig,
+          userName: myName,
+          userId: user?.id,
+          userAvatar: myAvatar
         });
+      });
 
-        const myName = profile?.display_name || user?.email?.split('@')[0];
-        const myAvatar = profile?.avatar_url;
-
-        peer.on("signal", sig => {
-          console.log('📡 Sending signal to:', from, 'type:', sig.type, 'myName:', myName);
-          if (sig.type === 'offer' || sig.type === 'answer') {
-            console.log('  SDP:', sig.sdp?.substring(0, 100) + '...');
-          } else if (sig.candidate) {
-            console.log('  ICE Candidate:', sig.candidate.candidate?.substring(0, 80));
-          }
-          socket.emit("signal", {
-            to: from,
-            from: socket.id,
-            signal: sig,
-            userName: myName,
-            userId: user?.id,
-            userAvatar: myAvatar
-          });
+      peer.on('stream', remoteStream => {
+        console.log('📺 RECEIVED STREAM from:', from, 'streamId:', remoteStream.id, 'tracks:', remoteStream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
+        const peerRef = peersRef.current.find(p => p.socketId === from);
+        if (peerRef) {
+          peerRef.stream = remoteStream;
+          console.log('  ✅ Updated peerRef.stream');
+        }
+        setPeers(prev => {
+          const updated = prev.map(p =>
+            p.socketId === from ? { ...p, stream: remoteStream } : p
+          );
+          console.log('  ✅ Updated peers state');
+          return updated;
         });
+      });
 
-        peer.on('stream', remoteStream => {
-          console.log('📺 RECEIVED STREAM from:', from, 'streamId:', remoteStream.id, 'tracks:', remoteStream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
+      peer.on('track', (track, remoteStream) => {
+        console.log('🎵 RECEIVED TRACK from:', from, track.kind, 'enabled:', track.enabled, 'readyState:', track.readyState);
+        if (remoteStream) {
           const peerRef = peersRef.current.find(p => p.socketId === from);
           if (peerRef) {
             peerRef.stream = remoteStream;
-            console.log('  ✅ Updated peerRef.stream');
           }
-          setPeers(prev => {
-            const updated = prev.map(p =>
-              p.socketId === from ? { ...p, stream: remoteStream } : p
-            );
-            console.log('  ✅ Updated peers state');
-            return updated;
-          });
-        });
+          setPeers(prev => prev.map(p =>
+            p.socketId === from ? { ...p, stream: remoteStream } : p
+          ));
+        }
+      });
 
-        peer.on('track', (track, remoteStream) => {
-          console.log('🎵 RECEIVED TRACK from:', from, track.kind, 'enabled:', track.enabled, 'readyState:', track.readyState);
-          if (remoteStream) {
-            const peerRef = peersRef.current.find(p => p.socketId === from);
-            if (peerRef) {
-              peerRef.stream = remoteStream;
-            }
-            setPeers(prev => prev.map(p =>
-              p.socketId === from ? { ...p, stream: remoteStream } : p
-            ));
-          }
-        });
+      peer.on('connect', () => {
+        console.log('✅ PEER CONNECTED:', from);
+        if (peer._pc) {
+          console.log('  Connection state:', peer._pc.connectionState);
+          console.log('  ICE state:', peer._pc.iceConnectionState);
+          console.log('  Signaling state:', peer._pc.signalingState);
+        }
+      });
 
-        peer.on('connect', () => {
-          console.log('✅ PEER CONNECTED:', from);
-          if (peer._pc) {
-            console.log('  Connection state:', peer._pc.connectionState);
-            console.log('  ICE state:', peer._pc.iceConnectionState);
-            console.log('  Signaling state:', peer._pc.signalingState);
-          }
-        });
-
-        peer.on('error', err => {
+      peer.on('error', err => {
           if (err.code === 'ERR_DATA_CHANNEL' || err.message.includes('User-Initiated Abort')) {
             return;
           }
@@ -958,34 +989,43 @@ function WatchPartyRoom() {
             console.log('  ICE Connection State:', peer._pc.iceConnectionState);
             console.log('  Connection State:', peer._pc.connectionState);
           }
-        });
-        
-        peer.on('close', () => {
-          console.log('🔌 Peer Closed:', from);
-          // Clean up closed peer
-          peersRef.current = peersRef.current.filter(p => p.socketId !== from);
-          setPeers(prev => prev.filter(p => p.socketId !== from));
-        });
-        
-        // Monitor ICE connection state
-        peer._pc.addEventListener('iceconnectionstatechange', () => {
-          const state = peer._pc.iceConnectionState;
-          console.log(`🧊 ICE Connection State (${from}):`, state);
           
-          if (state === 'failed' || state === 'disconnected') {
-            console.warn(`⚠️ ICE connection ${state} for ${from}, attempting ICE restart...`);
-            // Attempt ICE restart
-            peer._pc.restartIce?.();
+          // Clean up failed peer
+          if (err.message.includes('Connection failed') || err.message.includes('setRemoteDescription')) {
+            console.log('🧹 Cleaning up failed peer:', from);
+            try {
+              peer.destroy();
+            } catch (e) {
+              console.log('  Peer already destroyed');
+            }
+            peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+            setPeers(prev => prev.filter(p => p.socketId !== from));
           }
-        });
-
-        try {
-          addPeer(from, peer, peerName, userId || null, userAvatar || null);
-          console.log('  ✅ Added peer to list, now signaling...');
-          peer.signal(signal);
-        } catch (err) {
-          console.error('❌ Signal error:', err);
+      });
+      
+      peer.on('close', () => {
+        console.log('🔌 Peer Closed:', from);
+        // Clean up closed peer
+        peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+        setPeers(prev => prev.filter(p => p.socketId !== from));
+      });
+      
+      // Monitor ICE connection state
+      peer._pc.addEventListener('iceconnectionstatechange', () => {
+        const state = peer._pc.iceConnectionState;
+        console.log(`🧊 ICE Connection State (${from}):`, state);
+        
+        if (state === 'failed') {
+          console.warn(`⚠️ ICE connection failed for ${from}`);
         }
+      });
+
+      try {
+        addPeer(from, peer, peerName, userId || null, userAvatar || null);
+        console.log('  ✅ Added peer to list, now signaling...');
+        peer.signal(signal);
+      } catch (err) {
+        console.error('❌ Signal error:', err);
       }
     };
 
