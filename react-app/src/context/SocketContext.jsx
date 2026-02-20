@@ -99,8 +99,9 @@ export function SocketProvider({ children }) {
                 transports: ['polling', 'websocket'],
                 autoConnect: true,
                 upgrade: true,
-                rememberUpgrade: true,
-                forceNew: false
+                rememberUpgrade: false, // Don't remember upgrade to allow fallback
+                forceNew: false,
+                withCredentials: false
             });
         });
 

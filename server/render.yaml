@@ -2,9 +2,13 @@ services:
   - type: web
     name: castly-sync-server
     env: node
+    region: oregon
+    plan: free
     buildCommand: npm install
     startCommand: node syncServer.js
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        sync: false
