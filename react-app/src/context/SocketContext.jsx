@@ -11,6 +11,22 @@ let globalSocket = null;
 let globalSocketUserId = null;
 let globalHeartbeatInterval = null;
 
+// Wake up the server (for free tier services that sleep)
+async function wakeUpServer() {
+    try {
+        console.log('🔔 Waking up server...');
+        const response = await fetch(SOCKET_URL, { 
+            method: 'GET',
+            signal: AbortSignal.timeout(10000)
+        });
+        console.log('✅ Server is awake:', response.ok);
+        return response.ok;
+    } catch (error) {
+        console.warn('⚠️ Server wake-up failed:', error.message);
+        return false;
+    }
+}
+
 export function SocketProvider({ children }) {
     const { user } = useAuth();
     const [isConnected, setIsConnected] = useState(false);
@@ -70,14 +86,22 @@ export function SocketProvider({ children }) {
 
         console.log('🔌 Creating NEW persistent socket connection for user:', user.id);
 
-        const socket = io(SOCKET_URL, {
-            reconnection: true,
-            reconnectionDelay: 1000,
-            reconnectionDelayMax: 5000,
-            reconnectionAttempts: Infinity,
-            timeout: 20000,
-            transports: ['websocket', 'polling'],
-            autoConnect: true
+        // Wake up server before connecting (for free tier services)
+        const initializeSocket = async () => {
+            await wakeUpServer();
+            
+            const socket = io(SOCKET_URL, {
+                reconnection: true,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000,
+                reconnectionAttempts: Infinity,
+                timeout: 30000,
+                transports: ['polling', 'websocket'],
+                autoConnect: true,
+                upgrade: true,
+                rememberUpgrade: true,
+                forceNew: false
+            });
         });
 
         globalSocket = socket;
@@ -186,6 +210,11 @@ export function SocketProvider({ children }) {
                 console.log('⚠️ Cannot send heartbeat - socket not connected');
             }
         }, 4000);
+        
+        }; // End of initializeSocket
+        
+        // Call the async initialization
+        initializeSocket();
 
         // Cleanup only when component unmounts
         return () => {
