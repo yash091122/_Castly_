@@ -500,7 +500,14 @@ function WatchPartyRoom() {
           iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
-            // Free TURN servers for better NAT traversal
+            { urls: 'stun:stun2.l.google.com:19302' },
+            { urls: 'stun:stun3.l.google.com:19302' },
+            { urls: 'stun:stun4.l.google.com:19302' },
+            // Twilio STUN/TURN (free tier)
+            {
+              urls: 'stun:global.stun.twilio.com:3478'
+            },
+            // Multiple TURN servers for better reliability
             {
               urls: 'turn:openrelay.metered.ca:80',
               username: 'openrelayproject',
@@ -515,16 +522,38 @@ function WatchPartyRoom() {
               urls: 'turn:openrelay.metered.ca:443?transport=tcp',
               username: 'openrelayproject',
               credential: 'openrelayproject'
+            },
+            // Additional free TURN servers
+            {
+              urls: 'turn:relay.metered.ca:80',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:relay.metered.ca:443',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Numb STUN/TURN
+            {
+              urls: 'turn:numb.viagenie.ca',
+              username: 'webrtc@live.com',
+              credential: 'muazkh'
             }
           ],
           sdpSemantics: 'unified-plan',
           iceTransportPolicy: 'all',
-          iceCandidatePoolSize: 10
+          iceCandidatePoolSize: 10,
+          bundlePolicy: 'max-bundle',
+          rtcpMuxPolicy: 'require'
         },
         offerOptions: {
           offerToReceiveAudio: true,
           offerToReceiveVideo: true
-        }
+        },
+        // Add connection timeout
+        channelConfig: {},
+        channelName: `peer-${targetSocketId}`
       });
 
       const myName = profile?.display_name || user?.email?.split('@')[0];
@@ -893,7 +922,14 @@ function WatchPartyRoom() {
             iceServers: [
               { urls: 'stun:stun.l.google.com:19302' },
               { urls: 'stun:stun1.l.google.com:19302' },
-              // Free TURN servers for better NAT traversal
+              { urls: 'stun:stun2.l.google.com:19302' },
+              { urls: 'stun:stun3.l.google.com:19302' },
+              { urls: 'stun:stun4.l.google.com:19302' },
+              // Twilio STUN/TURN (free tier)
+              {
+                urls: 'stun:global.stun.twilio.com:3478'
+              },
+              // Multiple TURN servers for better reliability
               {
                 urls: 'turn:openrelay.metered.ca:80',
                 username: 'openrelayproject',
@@ -908,16 +944,37 @@ function WatchPartyRoom() {
                 urls: 'turn:openrelay.metered.ca:443?transport=tcp',
                 username: 'openrelayproject',
                 credential: 'openrelayproject'
+              },
+              // Additional free TURN servers
+              {
+                urls: 'turn:relay.metered.ca:80',
+                username: 'openrelayproject',
+                credential: 'openrelayproject'
+              },
+              {
+                urls: 'turn:relay.metered.ca:443',
+                username: 'openrelayproject',
+                credential: 'openrelayproject'
+              },
+              // Numb STUN/TURN
+              {
+                urls: 'turn:numb.viagenie.ca',
+                username: 'webrtc@live.com',
+                credential: 'muazkh'
               }
             ],
             sdpSemantics: 'unified-plan',
             iceTransportPolicy: 'all',
-            iceCandidatePoolSize: 10
+            iceCandidatePoolSize: 10,
+            bundlePolicy: 'max-bundle',
+            rtcpMuxPolicy: 'require'
           },
           answerOptions: {
             offerToReceiveAudio: true,
             offerToReceiveVideo: true
-      }
+          },
+          channelConfig: {},
+          channelName: `peer-${from}`
       });
 
       const myName = profile?.display_name || user?.email?.split('@')[0];
