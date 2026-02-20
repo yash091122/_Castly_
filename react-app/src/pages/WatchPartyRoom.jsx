@@ -871,15 +871,19 @@ function WatchPartyRoom() {
           setPeers(prev => prev.filter(p => p.socketId !== from));
           // Fall through to create new peer
         } else {
-          // Update name/avatar if improved
-          const newName = getNameForSocket(from, userName);
-          updatePeerData(from, { name: newName, avatar: userAvatar });
-          try {
-            existingPeer.peer.signal(signal);
-            return; // Exit early if successful
-          } catch (err) {
-            console.error('❌ Signal error:', err);
-            // If signaling fails, clean up and create new peer
+          // Check signaling state before applying signal
+          const signalingState = existingPeer.peer._pc?.signalingState;
+          console.log('  Current signaling state:', signalingState, 'Signal type:', signal.type);
+          
+          // Prevent applying answer in stable state
+          if (signal.type === 'answer' && signalingState === 'stable') {
+            console.warn('  ⚠️ Ignoring answer in stable state - peer already connected or wrong state');
+            return;
+          }
+          
+          // Prevent applying offer if we already have one
+          if (signal.type === 'offer' && (signalingState === 'have-local-offer' || signalingState === 'have-remote-offer')) {
+            console.warn('  ⚠️ Received offer but already in offer state, recreating peer');
             try {
               existingPeer.peer.destroy();
             } catch (e) {
@@ -888,8 +892,33 @@ function WatchPartyRoom() {
             peersRef.current = peersRef.current.filter(p => p.socketId !== from);
             setPeers(prev => prev.filter(p => p.socketId !== from));
             // Fall through to create new peer
+          } else {
+            // Update name/avatar if improved
+            const newName = getNameForSocket(from, userName);
+            updatePeerData(from, { name: newName, avatar: userAvatar });
+            try {
+              existingPeer.peer.signal(signal);
+              return; // Exit early if successful
+            } catch (err) {
+              console.error('❌ Signal error:', err);
+              // If signaling fails, clean up and create new peer
+              try {
+                existingPeer.peer.destroy();
+              } catch (e) {
+                console.log('  Peer already destroyed');
+              }
+              peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+              setPeers(prev => prev.filter(p => p.socketId !== from));
+              // Fall through to create new peer
+            }
           }
         }
+      }
+      
+      // Only create new peer if we received an offer (not an answer or candidate)
+      if (signal.type !== 'offer') {
+        console.warn('  ⚠️ No existing peer and signal is not an offer, ignoring');
+        return;
       }
       
       // Create new peer (either no existing peer or existing one failed)
