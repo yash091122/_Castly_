@@ -125,6 +125,32 @@ export const movies = {
         backdropUrl: '/assets/breaking-bad-backdrop.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=HhesaQXLuRY',
         videoUrl: sampleVideos[3]
+    },
+    'mujhse-dosti-karoge': {
+        id: 'mujhse-dosti-karoge',
+        title: 'Mujhse Dosti Karoge',
+        genre: 'Romance/Drama',
+        rating: 'PG',
+        year: '2002',
+        duration: '2h 29m',
+        description: 'Childhood friends reconnect years later through letters, leading to love, confusion, and emotional choices.',
+        posterUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4KPy7NZS2LUK-yKJ1yoprlTPKs0XGx0rE-Q&s',
+        backdropUrl: '/assets/mujhse-dosti-karoge-backdrop.jpg',
+        trailerUrl: 'https://www.youtube.com/watch?v=9XlFQv3sY2A',
+        videoUrl: sampleVideos[1]
+    },
+    'devdas': {
+        id: 'devdas',
+        title: 'Devdas',
+        genre: 'Romance/Drama',
+        rating: 'PG-13',
+        year: '2002',
+        duration: '3h 5m',
+        description: 'A tragic love story of Devdas and Paro, whose romance is destroyed by family pride, leading Devdas toward self-destruction.',
+        posterUrl: 'https://www.scenetheworld.com/wp-content/uploads/2017/03/Devdas-800x500.jpg',
+        backdropUrl: '/assets/devdas-backdrop.jpg',
+        trailerUrl: 'https://www.youtube.com/watch?v=Yc6dFJ6uX3s',
+        videoUrl: sampleVideos[2]
     }
 };
 
