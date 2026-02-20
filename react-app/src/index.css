@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Import responsive styles */
-@import './styles/responsive.css';
-@import './styles/pages-responsive.css';
-@import './styles/watch-party-responsive.css';
-@import './styles/admin-responsive.css';
-@import './styles/content-card-responsive.css';
-@import './styles/responsive-utilities.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
