@@ -103,21 +103,20 @@ export function SocketProvider({ children }) {
                 forceNew: false,
                 withCredentials: false
             });
-        });
 
-        globalSocket = socket;
-        globalSocketUserId = user.id;
+            globalSocket = socket;
+            globalSocketUserId = user.id;
 
-        socket.on('connect', () => {
-            reconnectAttempts.current = 0;
-            console.log('✅ Socket connected:', socket.id);
-            setIsConnected(true);
+            socket.on('connect', () => {
+                reconnectAttempts.current = 0;
+                console.log('✅ Socket connected:', socket.id);
+                setIsConnected(true);
 
-            // Announce user is online
-            socket.emit('user:online', {
-                userId: user.id,
-                userData: {
-                    name: user.user_metadata?.display_name || user.email,
+                // Announce user is online
+                socket.emit('user:online', {
+                    userId: user.id,
+                    userData: {
+                        name: user.user_metadata?.display_name || user.email,
                     avatar: user.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`
                 }
             });
