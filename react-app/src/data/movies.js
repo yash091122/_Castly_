@@ -7,6 +7,7 @@ const sampleVideos = [
 ];
 
 export const movies = {
+    
     'mujhse-dosti-karoge': {
     id: 'mujhse-dosti-karoge',
     title: 'Mujhse Dosti Karoge',
@@ -33,7 +34,7 @@ export const movies = {
     backdropUrl: '/assets/devdas-backdrop.jpg',
     trailerUrl: 'https://www.youtube.com/watch?v=Yc6dFJ6uX3s',
     videoUrl: sampleVideos[2]
-}
+},
     'tous-en-scene': {
         id: 'tous-en-scene',
         title: 'Tous En Scene',
