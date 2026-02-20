@@ -153,6 +153,16 @@ function WatchPartyVision() {
       })
       .catch(err => {
         console.error("Failed to get media:", err);
+        setIsVideoEnabled(false);
+        setIsAudioEnabled(false);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.fillRect(0, 0, 1, 1);
+        const dummyStream = canvas.captureStream();
+        setStream(dummyStream);
+        if (userVideo.current) {
+          userVideo.current.srcObject = dummyStream;
+        }
       });
 
     return () => {
@@ -1214,10 +1224,21 @@ const VideoTile = ({ peer }) => {
   const ref = useRef();
 
   useEffect(() => {
-    peer.on("stream", stream => {
-      if (ref.current) {
+    const applyStream = (stream) => {
+      if (ref.current && ref.current.srcObject !== stream) {
         ref.current.srcObject = stream;
+        ref.current.play().catch(e => console.warn('VideoTile play failed:', e));
       }
+    }
+
+    // Check if stream already exists
+    if (peer._remoteStreams && peer._remoteStreams.length > 0) {
+      applyStream(peer._remoteStreams[0]);
+    }
+
+    peer.on("stream", applyStream);
+    peer.on("track", (track, stream) => {
+      if (stream) applyStream(stream);
     });
   }, [peer]);
 

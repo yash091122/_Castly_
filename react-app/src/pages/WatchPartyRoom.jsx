@@ -28,6 +28,12 @@ const VideoTile = ({ peer, stream, participantName = "Participant", participantI
   // Update streamRef when stream prop changes
   useEffect(() => {
     streamRef.current = stream;
+    if (stream && ref.current) {
+      if (ref.current.srcObject !== stream) {
+        ref.current.srcObject = stream;
+        ref.current.play().catch(e => console.warn('VideoTile prop stream play failed:', e));
+      }
+    }
   }, [stream]);
 
   useEffect(() => {
@@ -44,14 +50,14 @@ const VideoTile = ({ peer, stream, participantName = "Participant", participantI
       const videoTracks = newStream.getVideoTracks();
       console.log('📺 VideoTile: Applying stream for', participantName, 'video tracks:', videoTracks.length, 'enabled:', videoTracks[0]?.enabled);
 
-      // CRITICAL: Only update srcObject if it's actually different
       if (videoEl.srcObject !== newStream) {
         console.log('📺 VideoTile: Setting new stream for', participantName);
         videoEl.srcObject = newStream;
-        // Force play after setting srcObject
         videoEl.play().catch(e => console.warn('VideoTile play failed:', e));
       } else {
         console.log('📺 VideoTile: Stream already set for', participantName);
+        // Ensure play is called even if it's the same stream, mostly fixes Safari black frame issues
+        videoEl.play().catch(e => console.warn('VideoTile play failed:', e));
       }
     };
 
@@ -127,11 +133,11 @@ const VideoTile = ({ peer, stream, participantName = "Participant", participantI
         playsInline
         autoPlay
         ref={ref}
-        style={{ 
-          display: isVideoEnabled ? 'block' : 'none', 
-          width: '100%', 
-          height: '100%', 
-          objectFit: 'cover' 
+        style={{
+          display: isVideoEnabled ? 'block' : 'none',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
         }}
       />
 
@@ -625,13 +631,13 @@ function WatchPartyRoom() {
           return;
         }
         console.error('❌ Peer Error:', targetSocketId, err.message, err);
-        
+
         // Log ICE connection state for debugging
         if (peer._pc) {
           console.log('  ICE Connection State:', peer._pc.iceConnectionState);
           console.log('  Connection State:', peer._pc.connectionState);
         }
-        
+
         // Clean up failed peer
         if (err.message.includes('Connection failed') || err.message.includes('setRemoteDescription')) {
           console.log('🧹 Cleaning up failed peer:', targetSocketId);
@@ -644,19 +650,19 @@ function WatchPartyRoom() {
           setPeers(prev => prev.filter(p => p.socketId !== targetSocketId));
         }
       });
-      
+
       peer.on('close', () => {
         console.log('🔌 Peer Closed:', targetSocketId);
         // Clean up closed peer
         peersRef.current = peersRef.current.filter(p => p.socketId !== targetSocketId);
         setPeers(prev => prev.filter(p => p.socketId !== targetSocketId));
       });
-      
+
       // Monitor ICE connection state
       peer._pc.addEventListener('iceconnectionstatechange', () => {
         const state = peer._pc.iceConnectionState;
         console.log(`🧊 ICE Connection State (${targetSocketId}):`, state);
-        
+
         if (state === 'failed') {
           console.warn(`⚠️ ICE connection failed for ${targetSocketId}`);
         }
@@ -863,7 +869,7 @@ function WatchPartyRoom() {
 
       if (existingPeer) {
         console.log('  ✅ Found existing peer, passing signal');
-        
+
         // Check if peer is destroyed
         if (existingPeer.peer.destroyed) {
           console.warn('  ⚠️ Peer is destroyed, removing and creating new one');
@@ -874,13 +880,13 @@ function WatchPartyRoom() {
           // Check signaling state before applying signal
           const signalingState = existingPeer.peer._pc?.signalingState;
           console.log('  Current signaling state:', signalingState, 'Signal type:', signal.type);
-          
+
           // Prevent applying answer in stable state
           if (signal.type === 'answer' && signalingState === 'stable') {
             console.warn('  ⚠️ Ignoring answer in stable state - peer already connected or wrong state');
             return;
           }
-          
+
           // Prevent applying offer if we already have one
           if (signal.type === 'offer' && (signalingState === 'have-local-offer' || signalingState === 'have-remote-offer')) {
             console.warn('  ⚠️ Received offer but already in offer state, recreating peer');
@@ -914,13 +920,13 @@ function WatchPartyRoom() {
           }
         }
       }
-      
+
       // Only create new peer if we received an offer (not an answer or candidate)
       if (signal.type !== 'offer') {
         console.warn('  ⚠️ No existing peer and signal is not an offer, ignoring');
         return;
       }
-      
+
       // Create new peer (either no existing peer or existing one failed)
       // New peer - we're receiving, so NOT initiator
       // CRITICAL FIX: Use streamRef.current instead of currentStream
@@ -944,66 +950,66 @@ function WatchPartyRoom() {
       }
 
       const peer = new SimplePeer({
-          initiator: false,
-          trickle: true,
-          stream: localStream || null,
-          config: {
-            iceServers: [
-              { urls: 'stun:stun.l.google.com:19302' },
-              { urls: 'stun:stun1.l.google.com:19302' },
-              { urls: 'stun:stun2.l.google.com:19302' },
-              { urls: 'stun:stun3.l.google.com:19302' },
-              { urls: 'stun:stun4.l.google.com:19302' },
-              // Twilio STUN/TURN (free tier)
-              {
-                urls: 'stun:global.stun.twilio.com:3478'
-              },
-              // Multiple TURN servers for better reliability
-              {
-                urls: 'turn:openrelay.metered.ca:80',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-              },
-              {
-                urls: 'turn:openrelay.metered.ca:443',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-              },
-              {
-                urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-              },
-              // Additional free TURN servers
-              {
-                urls: 'turn:relay.metered.ca:80',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-              },
-              {
-                urls: 'turn:relay.metered.ca:443',
-                username: 'openrelayproject',
-                credential: 'openrelayproject'
-              },
-              // Numb STUN/TURN
-              {
-                urls: 'turn:numb.viagenie.ca',
-                username: 'webrtc@live.com',
-                credential: 'muazkh'
-              }
-            ],
-            sdpSemantics: 'unified-plan',
-            iceTransportPolicy: 'all',
-            iceCandidatePoolSize: 10,
-            bundlePolicy: 'max-bundle',
-            rtcpMuxPolicy: 'require'
-          },
-          answerOptions: {
-            offerToReceiveAudio: true,
-            offerToReceiveVideo: true
-          },
-          channelConfig: {},
-          channelName: `peer-${from}`
+        initiator: false,
+        trickle: true,
+        stream: localStream || null,
+        config: {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+            { urls: 'stun:stun3.l.google.com:19302' },
+            { urls: 'stun:stun4.l.google.com:19302' },
+            // Twilio STUN/TURN (free tier)
+            {
+              urls: 'stun:global.stun.twilio.com:3478'
+            },
+            // Multiple TURN servers for better reliability
+            {
+              urls: 'turn:openrelay.metered.ca:80',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Additional free TURN servers
+            {
+              urls: 'turn:relay.metered.ca:80',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:relay.metered.ca:443',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Numb STUN/TURN
+            {
+              urls: 'turn:numb.viagenie.ca',
+              username: 'webrtc@live.com',
+              credential: 'muazkh'
+            }
+          ],
+          sdpSemantics: 'unified-plan',
+          iceTransportPolicy: 'all',
+          iceCandidatePoolSize: 10,
+          bundlePolicy: 'max-bundle',
+          rtcpMuxPolicy: 'require'
+        },
+        answerOptions: {
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: true
+        },
+        channelConfig: {},
+        channelName: `peer-${from}`
       });
 
       const myName = profile?.display_name || user?.email?.split('@')[0];
@@ -1065,42 +1071,42 @@ function WatchPartyRoom() {
       });
 
       peer.on('error', err => {
-          if (err.code === 'ERR_DATA_CHANNEL' || err.message.includes('User-Initiated Abort')) {
-            return;
+        if (err.code === 'ERR_DATA_CHANNEL' || err.message.includes('User-Initiated Abort')) {
+          return;
+        }
+        console.error('❌ Peer Error:', from, err.message, err);
+
+        // Log ICE connection state for debugging
+        if (peer._pc) {
+          console.log('  ICE Connection State:', peer._pc.iceConnectionState);
+          console.log('  Connection State:', peer._pc.connectionState);
+        }
+
+        // Clean up failed peer
+        if (err.message.includes('Connection failed') || err.message.includes('setRemoteDescription')) {
+          console.log('🧹 Cleaning up failed peer:', from);
+          try {
+            peer.destroy();
+          } catch (e) {
+            console.log('  Peer already destroyed');
           }
-          console.error('❌ Peer Error:', from, err.message, err);
-          
-          // Log ICE connection state for debugging
-          if (peer._pc) {
-            console.log('  ICE Connection State:', peer._pc.iceConnectionState);
-            console.log('  Connection State:', peer._pc.connectionState);
-          }
-          
-          // Clean up failed peer
-          if (err.message.includes('Connection failed') || err.message.includes('setRemoteDescription')) {
-            console.log('🧹 Cleaning up failed peer:', from);
-            try {
-              peer.destroy();
-            } catch (e) {
-              console.log('  Peer already destroyed');
-            }
-            peersRef.current = peersRef.current.filter(p => p.socketId !== from);
-            setPeers(prev => prev.filter(p => p.socketId !== from));
-          }
+          peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+          setPeers(prev => prev.filter(p => p.socketId !== from));
+        }
       });
-      
+
       peer.on('close', () => {
         console.log('🔌 Peer Closed:', from);
         // Clean up closed peer
         peersRef.current = peersRef.current.filter(p => p.socketId !== from);
         setPeers(prev => prev.filter(p => p.socketId !== from));
       });
-      
+
       // Monitor ICE connection state
       peer._pc.addEventListener('iceconnectionstatechange', () => {
         const state = peer._pc.iceConnectionState;
         console.log(`🧊 ICE Connection State (${from}):`, state);
-        
+
         if (state === 'failed') {
           console.warn(`⚠️ ICE connection failed for ${from}`);
         }
@@ -1304,6 +1310,10 @@ function WatchPartyRoom() {
         if (!isMounted) return; // Ignore error if unmounted
         console.error("❌ Media Error:", err);
         console.log('⚠️ Joining room WITHOUT media stream');
+        setIsVideoEnabled(false);
+        setIsAudioEnabled(false);
+        socket.emit('media:status', { roomId, userId: user?.id, type: 'video', enabled: false });
+        socket.emit('media:status', { roomId, userId: user?.id, type: 'audio', enabled: false });
         registerListeners();
         emitJoin();
       });
@@ -1905,6 +1915,7 @@ function WatchPartyRoom() {
             }
             // Update video element
             if (userVideo.current) {
+              userVideo.current.srcObject = null;
               userVideo.current.srcObject = stream;
             }
             // Update peers with new track
@@ -2704,12 +2715,12 @@ function WatchPartyRoom() {
           {peers.map((p, i) => {
             const isMuted = mutedParticipants.has(p.odId);
             const isVideoOff = videoOffParticipants.has(p.odId);
-            
+
             // ADDITIONAL CHECK: Also check if video track is disabled in the stream
             const hasVideoTrack = p.stream?.getVideoTracks().length > 0;
             const videoTrackEnabled = p.stream?.getVideoTracks()[0]?.enabled;
             const actuallyVideoOff = isVideoOff || !hasVideoTrack || !videoTrackEnabled;
-            
+
             if (i === 0) { // Log first peer only to avoid spam
               console.log('🎨 Rendering peer tile:', {
                 socketId: p.socketId,
