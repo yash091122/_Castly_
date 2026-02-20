@@ -518,7 +518,12 @@ function WatchPartyRoom() {
             }
           ],
           sdpSemantics: 'unified-plan',
-          iceTransportPolicy: 'all'
+          iceTransportPolicy: 'all',
+          iceCandidatePoolSize: 10
+        },
+        offerOptions: {
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: true
         }
       });
 
@@ -527,6 +532,11 @@ function WatchPartyRoom() {
 
       peer.on("signal", signal => {
         console.log('📡 Sending signal to:', targetSocketId, 'type:', signal.type, 'myName:', myName);
+        if (signal.type === 'offer' || signal.type === 'answer') {
+          console.log('  SDP:', signal.sdp?.substring(0, 100) + '...');
+        } else if (signal.candidate) {
+          console.log('  ICE Candidate:', signal.candidate.candidate?.substring(0, 80));
+        }
         socket.emit("signal", {
           to: targetSocketId,
           from: socket.id,
@@ -586,8 +596,32 @@ function WatchPartyRoom() {
           return;
         }
         console.error('❌ Peer Error:', targetSocketId, err.message, err);
+        
+        // Log ICE connection state for debugging
+        if (peer._pc) {
+          console.log('  ICE Connection State:', peer._pc.iceConnectionState);
+          console.log('  Connection State:', peer._pc.connectionState);
+        }
       });
-      peer.on('close', () => console.log('🔌 Peer Closed:', targetSocketId));
+      
+      peer.on('close', () => {
+        console.log('🔌 Peer Closed:', targetSocketId);
+        // Clean up closed peer
+        peersRef.current = peersRef.current.filter(p => p.socketId !== targetSocketId);
+        setPeers(prev => prev.filter(p => p.socketId !== targetSocketId));
+      });
+      
+      // Monitor ICE connection state
+      peer._pc.addEventListener('iceconnectionstatechange', () => {
+        const state = peer._pc.iceConnectionState;
+        console.log(`🧊 ICE Connection State (${targetSocketId}):`, state);
+        
+        if (state === 'failed' || state === 'disconnected') {
+          console.warn(`⚠️ ICE connection ${state} for ${targetSocketId}, attempting ICE restart...`);
+          // Attempt ICE restart
+          peer._pc.restartIce?.();
+        }
+      });
 
       return peer;
     };
@@ -846,7 +880,12 @@ function WatchPartyRoom() {
               }
             ],
             sdpSemantics: 'unified-plan',
-            iceTransportPolicy: 'all'
+            iceTransportPolicy: 'all',
+            iceCandidatePoolSize: 10
+          },
+          answerOptions: {
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: true
           }
         });
 
@@ -855,6 +894,11 @@ function WatchPartyRoom() {
 
         peer.on("signal", sig => {
           console.log('📡 Sending signal to:', from, 'type:', sig.type, 'myName:', myName);
+          if (sig.type === 'offer' || sig.type === 'answer') {
+            console.log('  SDP:', sig.sdp?.substring(0, 100) + '...');
+          } else if (sig.candidate) {
+            console.log('  ICE Candidate:', sig.candidate.candidate?.substring(0, 80));
+          }
           socket.emit("signal", {
             to: from,
             from: socket.id,
@@ -908,8 +952,32 @@ function WatchPartyRoom() {
             return;
           }
           console.error('❌ Peer Error:', from, err.message, err);
+          
+          // Log ICE connection state for debugging
+          if (peer._pc) {
+            console.log('  ICE Connection State:', peer._pc.iceConnectionState);
+            console.log('  Connection State:', peer._pc.connectionState);
+          }
         });
-        peer.on('close', () => console.log('🔌 Peer Closed:', from));
+        
+        peer.on('close', () => {
+          console.log('🔌 Peer Closed:', from);
+          // Clean up closed peer
+          peersRef.current = peersRef.current.filter(p => p.socketId !== from);
+          setPeers(prev => prev.filter(p => p.socketId !== from));
+        });
+        
+        // Monitor ICE connection state
+        peer._pc.addEventListener('iceconnectionstatechange', () => {
+          const state = peer._pc.iceConnectionState;
+          console.log(`🧊 ICE Connection State (${from}):`, state);
+          
+          if (state === 'failed' || state === 'disconnected') {
+            console.warn(`⚠️ ICE connection ${state} for ${from}, attempting ICE restart...`);
+            // Attempt ICE restart
+            peer._pc.restartIce?.();
+          }
+        });
 
         try {
           addPeer(from, peer, peerName, userId || null, userAvatar || null);
