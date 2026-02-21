@@ -1,0 +1,561 @@
+/* ============================================
+   ADMIN PANEL RESPONSIVE STYLES
+   ============================================ */
+
+/* ============================================
+   ADMIN LAYOUT - MOBILE
+   ============================================ */
+@media (max-width: 767px) {
+  .admin-layout {
+    flex-direction: column !important;
+  }
+
+  .admin-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    position: relative !important;
+    border-radius: 0 !important;
+  }
+
+  .admin-nav {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    padding: 10px !important;
+    scrollbar-width: none !important;
+  }
+
+  .admin-nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .admin-nav-item {
+    min-width: auto !important;
+    padding: 10px 15px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+  }
+
+  .admin-nav-item i {
+    margin-right: 5px !important;
+  }
+
+  .admin-main {
+    width: 100% !important;
+    padding: 15px !important;
+  }
+
+  .admin-header {
+    flex-direction: column !important;
+    gap: 15px !important;
+    padding: 15px !important;
+  }
+
+  .admin-title {
+    font-size: 1.5rem !important;
+  }
+
+  .admin-actions {
+    width: 100% !important;
+    justify-content: stretch !important;
+  }
+
+  .admin-btn {
+    flex: 1 !important;
+    padding: 10px 15px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Dashboard Cards */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .stat-card {
+    padding: 15px !important;
+  }
+
+  .stat-icon {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .stat-value {
+    font-size: 1.8rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.85rem !important;
+  }
+
+  .stat-change {
+    font-size: 0.75rem !important;
+  }
+
+  /* Charts */
+  .chart-container {
+    height: 250px !important;
+    padding: 15px !important;
+  }
+
+  .chart-title {
+    font-size: 1.1rem !important;
+  }
+
+  /* Tables */
+  .admin-table-container {
+    overflow-x: auto !important;
+  }
+
+  .admin-table {
+    font-size: 0.85rem !important;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 8px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Hide less important columns on mobile */
+  .admin-table .hide-mobile {
+    display: none !important;
+  }
+
+  /* User Management */
+  .user-card {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 15px !important;
+  }
+
+  .user-avatar {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .user-info {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+  }
+
+  .user-name {
+    font-size: 1rem !important;
+  }
+
+  .user-email {
+    font-size: 0.8rem !important;
+  }
+
+  .user-actions {
+    margin-top: 10px !important;
+    width: 100% !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .user-action-btn {
+    width: 100% !important;
+    padding: 8px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Content Management */
+  .content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .content-item {
+    padding: 15px !important;
+  }
+
+  .content-thumbnail {
+    width: 100px !important;
+    height: 150px !important;
+  }
+
+  .content-details {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+  }
+
+  .content-title {
+    font-size: 1rem !important;
+  }
+
+  .content-meta {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+
+  .content-meta span {
+    font-size: 0.75rem !important;
+  }
+
+  /* Analytics */
+  .analytics-grid {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+  }
+
+  .analytics-card {
+    padding: 15px !important;
+  }
+
+  .analytics-chart {
+    height: 200px !important;
+  }
+
+  /* Settings */
+  .settings-section {
+    padding: 15px !important;
+  }
+
+  .settings-title {
+    font-size: 1.2rem !important;
+  }
+
+  .settings-form {
+    gap: 15px !important;
+  }
+
+  .form-group {
+    flex-direction: column !important;
+  }
+
+  .form-label {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100% !important;
+    padding: 10px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .form-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .form-btn {
+    width: 100% !important;
+  }
+
+  /* Notifications */
+  .notification-list {
+    gap: 10px !important;
+  }
+
+  .notification-item {
+    padding: 12px !important;
+  }
+
+  .notification-icon {
+    width: 35px !important;
+    height: 35px !important;
+    font-size: 1rem !important;
+  }
+
+  .notification-content {
+    margin-left: 10px !important;
+  }
+
+  .notification-title {
+    font-size: 0.9rem !important;
+  }
+
+  .notification-message {
+    font-size: 0.8rem !important;
+  }
+
+  /* Logs */
+  .log-entry {
+    padding: 10px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .log-timestamp {
+    font-size: 0.75rem !important;
+  }
+
+  .log-level {
+    padding: 3px 8px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .log-message {
+    font-size: 0.8rem !important;
+    word-break: break-all !important;
+  }
+
+  /* Filters */
+  .filter-bar {
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 15px !important;
+  }
+
+  .filter-group {
+    width: 100% !important;
+  }
+
+  .filter-input {
+    width: 100% !important;
+    padding: 8px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Modals */
+  .admin-modal-content {
+    width: 95% !important;
+    padding: 20px !important;
+  }
+
+  .admin-modal-title {
+    font-size: 1.3rem !important;
+  }
+
+  .admin-modal-body {
+    padding: 15px !important;
+  }
+}
+
+/* ============================================
+   ADMIN PANEL - TABLET
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .admin-sidebar {
+    width: 200px !important;
+  }
+
+  .admin-nav-item {
+    padding: 12px 15px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ============================================
+   ADMIN PANEL - LARGE DESKTOP/TV
+   ============================================ */
+@media (min-width: 1921px) {
+  .admin-sidebar {
+    width: 350px !important;
+  }
+
+  .admin-logo {
+    font-size: 2rem !important;
+    padding: 30px !important;
+  }
+
+  .admin-nav-item {
+    padding: 20px 30px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .admin-nav-item i {
+    font-size: 1.5rem !important;
+  }
+
+  .admin-title {
+    font-size: 3rem !important;
+  }
+
+  .admin-btn {
+    padding: 18px 35px !important;
+    font-size: 1.2rem !important;
+  }
+
+  /* Dashboard */
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 30px !important;
+  }
+
+  .stat-card {
+    padding: 35px !important;
+  }
+
+  .stat-icon {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 2.5rem !important;
+  }
+
+  .stat-value {
+    font-size: 3.5rem !important;
+  }
+
+  .stat-label {
+    font-size: 1.3rem !important;
+  }
+
+  .stat-change {
+    font-size: 1.1rem !important;
+  }
+
+  /* Charts */
+  .chart-container {
+    height: 500px !important;
+    padding: 35px !important;
+  }
+
+  .chart-title {
+    font-size: 2rem !important;
+  }
+
+  /* Tables */
+  .admin-table {
+    font-size: 1.2rem !important;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 20px !important;
+  }
+
+  /* User Management */
+  .user-avatar {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .user-name {
+    font-size: 1.6rem !important;
+  }
+
+  .user-email {
+    font-size: 1.2rem !important;
+  }
+
+  .user-action-btn {
+    padding: 15px 25px !important;
+    font-size: 1.2rem !important;
+  }
+
+  /* Content Management */
+  .content-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 30px !important;
+  }
+
+  .content-thumbnail {
+    width: 200px !important;
+    height: 300px !important;
+  }
+
+  .content-title {
+    font-size: 1.8rem !important;
+  }
+
+  .content-meta span {
+    font-size: 1.1rem !important;
+  }
+
+  /* Analytics */
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 30px !important;
+  }
+
+  .analytics-chart {
+    height: 400px !important;
+  }
+
+  /* Settings */
+  .settings-title {
+    font-size: 2.2rem !important;
+  }
+
+  .form-label {
+    font-size: 1.3rem !important;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 18px 25px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .form-btn {
+    padding: 18px 35px !important;
+    font-size: 1.2rem !important;
+  }
+
+  /* Notifications */
+  .notification-icon {
+    width: 70px !important;
+    height: 70px !important;
+    font-size: 2rem !important;
+  }
+
+  .notification-title {
+    font-size: 1.5rem !important;
+  }
+
+  .notification-message {
+    font-size: 1.2rem !important;
+  }
+
+  /* Logs */
+  .log-entry {
+    padding: 20px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .log-timestamp {
+    font-size: 1.1rem !important;
+  }
+
+  .log-level {
+    padding: 8px 15px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* ============================================
+   ADMIN PANEL - PRINT STYLES
+   ============================================ */
+@media print {
+  .admin-sidebar,
+  .admin-actions,
+  .user-actions,
+  .content-actions {
+    display: none !important;
+  }
+
+  .admin-main {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .admin-table {
+    border: 1px solid #000 !important;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+}

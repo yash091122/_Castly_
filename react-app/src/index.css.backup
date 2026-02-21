@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import responsive styles */
+@import './styles/responsive.css';
+@import './styles/pages-responsive.css';
+@import './styles/watch-party-responsive.css';
+@import './styles/admin-responsive.css';
+@import './styles/content-card-responsive.css';
+@import './styles/responsive-utilities.css';
+
+/* App-level styles */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --text-color: #ffffff;
+  --text-secondary: #999999;
+  --primary-color: rgba(255, 255, 255, 0.9);
+  --glow-color: rgba(255, 255, 255, 0.7);
+  --animation-duration: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-color);
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2)),
+    url('/assets/dark-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Quick View Modal Styles */
+.quick-view-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.quick-view-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.quick-view-modal .modal-content {
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.quick-view-modal .modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.quick-view-modal .modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.quick-view-modal .modal-backdrop {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7);
+}
+
+.quick-view-modal .modal-info {
+  padding: 25px;
+}
+
+.quick-view-modal .modal-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.quick-view-modal .modal-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.quick-view-modal .modal-meta span {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.quick-view-modal .modal-info p {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.quick-view-modal .modal-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.quick-view-modal .modal-actions button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.quick-view-modal .btn-play {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.quick-view-modal .btn-trailer {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.quick-view-modal .modal-actions button:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Card action button styles */
+/* Card action button styles - Grid View */
+.card-actions button.active {
+  background: rgba(255, 77, 77, 0.3);
+}
+
+.card-actions button.active i {
+  color: #ff4d4d;
+}
+
+/* Card action button styles - List View */
+.card-list-actions button.active {
+  background: rgba(255, 77, 77, 0.3);
+}
+
+.card-list-actions button.active i {
+  color: #ff4d4d;
+}
+
+/* Global fallback for favorite buttons */
+button.btn-favorite.active {
+  background: rgba(255, 77, 77, 0.3);
+}
+
+button.btn-favorite.active i {
+  color: #ff4d4d;
+}
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.active {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+
+/* Empty favorites styling */
+.empty-favorites {
+  text-align: center;
+  padding: 6rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-favorites i {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.empty-favorites h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.empty-favorites p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-favorites .btn {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.empty-favorites .btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thumb-white\/20::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Firefox scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
