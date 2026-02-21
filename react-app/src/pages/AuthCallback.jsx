@@ -16,8 +16,30 @@ function AuthCallback() {
                 const accessToken = hashParams.get('access_token');
                 const refreshToken = hashParams.get('refresh_token');
                 const type = hashParams.get('type');
+                const errorParam = hashParams.get('error');
+                const errorDescription = hashParams.get('error_description');
 
-                console.log('Auth callback params:', { type, hasAccessToken: !!accessToken });
+                console.log('Auth callback params:', { type, hasAccessToken: !!accessToken, error: errorParam });
+
+                // Handle errors from OAuth or email verification
+                if (errorParam) {
+                    setStatus('error');
+                    setMessage(errorDescription || 'Authentication failed. Please try again.');
+                    console.error('Auth error:', errorParam, errorDescription);
+                    
+                    // Redirect to login after 3 seconds
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 3000);
+                    return;
+                }
+
+                // If no parameters at all, redirect to home
+                if (!accessToken && !type && !errorParam) {
+                    console.log('No auth parameters, redirecting to home');
+                    navigate('/');
+                    return;
+                }
 
                 if (type === 'signup' && accessToken) {
                     // Set the session
@@ -58,14 +80,43 @@ function AuthCallback() {
                             navigate('/reset-password');
                         }, 2000);
                     }
+                } else if (accessToken && !type) {
+                    // OAuth callback (Google, etc.)
+                    const { error } = await supabase.auth.setSession({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    });
+
+                    if (error) {
+                        setStatus('error');
+                        setMessage('Failed to sign in. Please try again.');
+                        console.error('OAuth error:', error);
+                    } else {
+                        setStatus('success');
+                        setMessage('Sign in successful! Redirecting...');
+                        
+                        setTimeout(() => {
+                            navigate('/');
+                        }, 2000);
+                    }
                 } else {
                     setStatus('error');
                     setMessage('Invalid verification link.');
+                    
+                    // Redirect to login after 3 seconds
+                    setTimeout(() => {
+                        navigate('/login');
+                    }, 3000);
                 }
             } catch (error) {
                 setStatus('error');
                 setMessage('An error occurred during verification.');
                 console.error('Verification error:', error);
+                
+                // Redirect to login after 3 seconds
+                setTimeout(() => {
+                    navigate('/login');
+                }, 3000);
             }
         };
 
