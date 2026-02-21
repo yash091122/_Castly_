@@ -23,6 +23,8 @@ import Layout from './components/Layout';
 import Home from './pages/Home'; // Home is critical, keep eager
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 // Lazy load non-critical pages
 
@@ -81,6 +83,8 @@ const AppContent = () => {
           {/* Auth routes without layout */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/player/:id" element={<Player />} />
           <Route path="/tv-player/:showId/:season/:episode" element={<TvPlayer />} />
