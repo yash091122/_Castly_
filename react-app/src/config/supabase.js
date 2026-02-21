@@ -214,13 +214,20 @@ export const db = {
 
     // Watch History
     getWatchHistory: async (userId) => {
-        const { data, error } = await supabase
-            .from('watch_history')
-            .select('*')
-            .eq('user_id', userId)
-            .order('last_watched', { ascending: false })
-            .limit(20);
-        return { data, error };
+        try {
+            const { data, error } = await supabase
+                .from('watch_history')
+                .select('*')
+                .eq('user_id', userId)
+                .order('last_watched', { ascending: false })
+                .limit(20);
+
+            if (error) throw error;
+            return { data, error: null };
+        } catch (error) {
+            // Silently swallow 400 error caused by missing schema
+            return { data: [], error };
+        }
     },
 
     updateWatchProgress: async (userId, movieId, progress, duration) => {
@@ -240,13 +247,20 @@ export const db = {
 
     // TV Show Watch History
     getTvWatchHistory: async (userId) => {
-        const { data, error } = await supabase
-            .from('tv_watch_history')
-            .select('*')
-            .eq('user_id', userId)
-            .order('last_watched', { ascending: false })
-            .limit(20);
-        return { data, error };
+        try {
+            const { data, error } = await supabase
+                .from('tv_watch_history')
+                .select('*')
+                .eq('user_id', userId)
+                .order('last_watched', { ascending: false })
+                .limit(20);
+
+            if (error) throw error;
+            return { data, error: null };
+        } catch (error) {
+            // Silently swallow 400 error caused by missing schema
+            return { data: [], error };
+        }
     },
 
     updateTvWatchProgress: async (userId, showId, seasonNum, episodeNum, progress, duration) => {
