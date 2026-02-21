@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import ProfileSelection from './pages/ProfileSelection';
 
 // Lazy load non-critical pages
 
@@ -86,6 +87,7 @@ const AppContent = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/profiles" element={<ProfileSelection />} />
           <Route path="/player/:id" element={<Player />} />
           <Route path="/tv-player/:showId/:season/:episode" element={<TvPlayer />} />
           <Route path="/watch-party-room" element={<WatchPartyRoom />} />

@@ -111,7 +111,7 @@ export const SignInPage = ({ mode = "signin" }) => {
                 // Check if user is already authenticated (email confirmation disabled)
                 if (result.data?.session) {
                     console.log('✅ Signup successful, auto-login');
-                    navigate('/');
+                    navigate('/profiles');
                     return;
                 }
 
@@ -129,7 +129,7 @@ export const SignInPage = ({ mode = "signin" }) => {
             result = await signIn(formData.email, formData.password);
 
             if (!result.error) {
-                navigate('/');
+                navigate('/profiles');
                 return;
             }
         }
@@ -146,7 +146,7 @@ export const SignInPage = ({ mode = "signin" }) => {
             }
             setLoading(false);
         } else {
-            navigate('/');
+            navigate('/profiles');
         }
     };
 

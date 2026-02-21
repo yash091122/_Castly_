@@ -56,9 +56,9 @@ function AuthCallback() {
                         setStatus('success');
                         setMessage('Email verified successfully! Redirecting...');
                         
-                        // Redirect to home after 2 seconds
+                        // Redirect to profile selection after 2 seconds
                         setTimeout(() => {
-                            navigate('/');
+                            navigate('/profiles');
                         }, 2000);
                     }
                 } else if (type === 'recovery' && accessToken) {
@@ -95,8 +95,9 @@ function AuthCallback() {
                         setStatus('success');
                         setMessage('Sign in successful! Redirecting...');
                         
+                        // Redirect to profile selection after 2 seconds
                         setTimeout(() => {
-                            navigate('/');
+                            navigate('/profiles');
                         }, 2000);
                     }
                 } else {
