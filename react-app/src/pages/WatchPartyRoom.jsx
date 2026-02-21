@@ -504,16 +504,15 @@ function WatchPartyRoom() {
         stream: streamToSend,
         config: {
           iceServers: [
+            // Google STUN servers
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
             { urls: 'stun:stun2.l.google.com:19302' },
             { urls: 'stun:stun3.l.google.com:19302' },
             { urls: 'stun:stun4.l.google.com:19302' },
-            // Twilio STUN/TURN (free tier)
-            {
-              urls: 'stun:global.stun.twilio.com:3478'
-            },
-            // Multiple TURN servers for better reliability
+            // Twilio STUN
+            { urls: 'stun:global.stun.twilio.com:3478' },
+            // OpenRelay TURN servers (multiple endpoints)
             {
               urls: 'turn:openrelay.metered.ca:80',
               username: 'openrelayproject',
@@ -529,7 +528,7 @@ function WatchPartyRoom() {
               username: 'openrelayproject',
               credential: 'openrelayproject'
             },
-            // Additional free TURN servers
+            // Relay servers
             {
               urls: 'turn:relay.metered.ca:80',
               username: 'openrelayproject',
@@ -540,12 +539,20 @@ function WatchPartyRoom() {
               username: 'openrelayproject',
               credential: 'openrelayproject'
             },
-            // Numb STUN/TURN
+            {
+              urls: 'turn:relay.metered.ca:443?transport=tcp',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Numb TURN
             {
               urls: 'turn:numb.viagenie.ca',
               username: 'webrtc@live.com',
               credential: 'muazkh'
-            }
+            },
+            // Additional STUN servers for better connectivity
+            { urls: 'stun:stun.services.mozilla.com' },
+            { urls: 'stun:stun.stunprotocol.org:3478' }
           ],
           sdpSemantics: 'unified-plan',
           iceTransportPolicy: 'all',
@@ -557,7 +564,6 @@ function WatchPartyRoom() {
           offerToReceiveAudio: true,
           offerToReceiveVideo: true
         },
-        // Add connection timeout
         channelConfig: {},
         channelName: `peer-${targetSocketId}`
       });
@@ -955,16 +961,15 @@ function WatchPartyRoom() {
         stream: localStream || null,
         config: {
           iceServers: [
+            // Google STUN servers
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
             { urls: 'stun:stun2.l.google.com:19302' },
             { urls: 'stun:stun3.l.google.com:19302' },
             { urls: 'stun:stun4.l.google.com:19302' },
-            // Twilio STUN/TURN (free tier)
-            {
-              urls: 'stun:global.stun.twilio.com:3478'
-            },
-            // Multiple TURN servers for better reliability
+            // Twilio STUN
+            { urls: 'stun:global.stun.twilio.com:3478' },
+            // OpenRelay TURN servers (multiple endpoints)
             {
               urls: 'turn:openrelay.metered.ca:80',
               username: 'openrelayproject',
@@ -980,7 +985,7 @@ function WatchPartyRoom() {
               username: 'openrelayproject',
               credential: 'openrelayproject'
             },
-            // Additional free TURN servers
+            // Relay servers
             {
               urls: 'turn:relay.metered.ca:80',
               username: 'openrelayproject',
@@ -991,12 +996,20 @@ function WatchPartyRoom() {
               username: 'openrelayproject',
               credential: 'openrelayproject'
             },
-            // Numb STUN/TURN
+            {
+              urls: 'turn:relay.metered.ca:443?transport=tcp',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Numb TURN
             {
               urls: 'turn:numb.viagenie.ca',
               username: 'webrtc@live.com',
               credential: 'muazkh'
-            }
+            },
+            // Additional STUN servers for better connectivity
+            { urls: 'stun:stun.services.mozilla.com' },
+            { urls: 'stun:stun.stunprotocol.org:3478' }
           ],
           sdpSemantics: 'unified-plan',
           iceTransportPolicy: 'all',

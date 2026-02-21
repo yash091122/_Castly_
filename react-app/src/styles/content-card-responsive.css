@@ -49,7 +49,6 @@
   .card-meta span {
     font-size: 0.7rem !important;
     padding: 2px 6px !important;
-    border-radius: 4px !important;
   }
 
   .card-actions {
@@ -60,15 +59,17 @@
   }
 
   .card-actions button {
-    width: 32px !important;
-    height: 32px !important;
+    width: 32px;
+    height: 32px;
     font-size: 0.85rem !important;
     border-width: 1px !important;
   }
 
   .btn-play {
-    padding: 0 12px !important;
-    font-size: 0.7rem !important;
+    width: auto !important;
+    padding: 0 16px !important;
+    font-size: 0.75rem !important;
+    border-radius: 20px !important;
   }
 
   .btn-play i {
@@ -374,6 +375,7 @@
    TOUCH DEVICE OPTIMIZATIONS
    ============================================ */
 @media (hover: none) and (pointer: coarse) {
+
   /* Always show overlay on touch devices */
   .card-overlay {
     transform: translateY(0) !important;
@@ -431,6 +433,7 @@
    ============================================ */
 @media (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
+
   .content-card img,
   .card-list-poster img {
     image-rendering: -webkit-optimize-contrast !important;
@@ -442,6 +445,7 @@
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
+
   .content-card,
   .card-overlay,
   .card-actions,
