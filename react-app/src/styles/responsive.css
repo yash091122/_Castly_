@@ -123,10 +123,10 @@
 
   /* Content Card - Mobile Optimized */
   .content-card {
-    flex: 0 0 160px !important;
-    width: 160px !important;
-    height: 240px !important;
-    min-width: 160px !important;
+    flex: 0 0 280px !important;
+    width: 280px !important;
+    height: 158px !important;
+    min-width: 280px !important;
   }
 
   .content-card:hover {
@@ -225,9 +225,9 @@
    ============================================ */
 @media (max-width: 480px) {
   .content-card {
-    flex: 0 0 140px !important;
-    width: 140px !important;
-    height: 210px !important;
+    flex: 0 0 240px !important;
+    width: 240px !important;
+    height: 135px !important;
   }
 
   .nav-item {
@@ -298,9 +298,9 @@
 
   /* Content Cards */
   .content-card {
-    flex: 0 0 220px !important;
-    width: 220px !important;
-    height: 330px !important;
+    flex: 0 0 320px !important;
+    width: 320px !important;
+    height: 180px !important;
   }
 
   /* Section Title */
@@ -334,9 +334,9 @@
 
   /* Content Cards */
   .content-card {
-    flex: 0 0 280px !important;
-    width: 280px !important;
-    height: 420px !important;
+    flex: 0 0 360px !important;
+    width: 360px !important;
+    height: 203px !important;
   }
 
   /* Section Title */
@@ -392,9 +392,9 @@
 
   /* Content Cards - Larger */
   .content-card {
-    flex: 0 0 380px !important;
-    width: 380px !important;
-    height: 570px !important;
+    flex: 0 0 480px !important;
+    width: 480px !important;
+    height: 270px !important;
   }
 
   /* Section Title - Larger */

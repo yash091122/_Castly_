@@ -7,11 +7,11 @@
    ============================================ */
 @media (max-width: 767px) {
   .content-card {
-    flex: 0 0 160px !important;
-    width: 160px !important;
-    height: 240px !important;
-    min-width: 160px !important;
-    border-radius: 10px !important;
+    flex: 0 0 280px !important;
+    width: 280px !important;
+    height: 158px !important;
+    min-width: 280px !important;
+    border-radius: 12px !important;
   }
 
   .content-card img {
@@ -102,9 +102,9 @@
 /* Small Mobile */
 @media (max-width: 480px) {
   .content-card {
-    flex: 0 0 140px !important;
-    width: 140px !important;
-    height: 210px !important;
+    flex: 0 0 240px !important;
+    width: 240px !important;
+    height: 135px !important;
   }
 
   .card-overlay h3 {
@@ -127,9 +127,9 @@
    ============================================ */
 @media (min-width: 768px) and (max-width: 1024px) {
   .content-card {
-    flex: 0 0 200px !important;
-    width: 200px !important;
-    height: 300px !important;
+    flex: 0 0 320px !important;
+    width: 320px !important;
+    height: 180px !important;
   }
 
   .card-overlay h3 {
@@ -151,9 +151,9 @@
    ============================================ */
 @media (min-width: 1921px) {
   .content-card {
-    flex: 0 0 380px !important;
-    width: 380px !important;
-    height: 570px !important;
+    flex: 0 0 480px !important;
+    width: 480px !important;
+    height: 270px !important;
     border-radius: 20px !important;
   }
 
