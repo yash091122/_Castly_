@@ -272,7 +272,6 @@ export const SignInPage = ({ mode = "signin" }) => {
                         {loading ? (isSignUp ? 'Creating Account...' : 'Signing In...') : (isSignUp ? 'Sign Up' : 'Sign In')}
                     </button>
 
-                    {/* Temporarily disabled - Google OAuth not configured
                     <div className="divider">or</div>
 
                     <button
@@ -283,7 +282,6 @@ export const SignInPage = ({ mode = "signin" }) => {
                     >
                         <i className="fab fa-google"></i> Continue with Google
                     </button>
-                    */}
 
                     <p className="signup-text">
                         {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
