@@ -115,18 +115,15 @@ export const SignInPage = ({ mode = "signin" }) => {
                     return;
                 }
 
-                // Show success message for email confirmation
-                setAuthError('');
-                setLoading(false);
-                alert('✅ Account created successfully!\n\n📧 Please check your email to verify your account.\n\nCheck your spam folder if you don\'t see the email.');
-                // Clear form
-                setFormData({
-                    username: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: ''
-                });
-                return;
+                // If no session but user created, email confirmation is required
+                if (result.data?.user && !result.data?.session) {
+                    setAuthError('');
+                    setLoading(false);
+                    alert('✅ Account created successfully!\n\nYou can now sign in with your email and password.');
+                    // Redirect to login
+                    navigate('/login');
+                    return;
+                }
             }
         } else {
             result = await signIn(formData.email, formData.password);

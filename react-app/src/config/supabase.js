@@ -32,7 +32,9 @@ export const auth = {
                     display_name: username
                 },
                 // Email redirect URL for confirmation
-                emailRedirectTo: `${window.location.origin}/auth/callback`
+                emailRedirectTo: `${window.location.origin}/auth/callback`,
+                // Disable email confirmation for immediate access
+                emailConfirmation: false
             }
         });
         return { data, error };
