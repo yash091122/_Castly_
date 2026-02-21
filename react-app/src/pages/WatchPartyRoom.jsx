@@ -216,8 +216,14 @@ function WatchPartyRoom() {
   const [isVideoLoading, setIsVideoLoading] = useState(false); // true when local video is buffering
 
   // Local Media State
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+  const [isVideoEnabled, setIsVideoEnabled] = useState(() => {
+    const saved = localStorage.getItem('watchparty_video_enabled');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+  const [isAudioEnabled, setIsAudioEnabled] = useState(() => {
+    const saved = localStorage.getItem('watchparty_audio_enabled');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   const userVideo = useRef();
 
   // Chat State
@@ -510,6 +516,8 @@ function WatchPartyRoom() {
             { urls: 'stun:stun2.l.google.com:19302' },
             { urls: 'stun:stun3.l.google.com:19302' },
             { urls: 'stun:stun4.l.google.com:19302' },
+            // Additional STUN 
+            { urls: 'stun:stun.cloudflare.com:3478' },
             // Twilio STUN
             { urls: 'stun:global.stun.twilio.com:3478' },
             // OpenRelay TURN servers (multiple endpoints)
@@ -1306,6 +1314,18 @@ function WatchPartyRoom() {
           }))
         });
 
+        // Initialize based on saved preferences
+        const initVideo = localStorage.getItem('watchparty_video_enabled') !== 'false';
+        const initAudio = localStorage.getItem('watchparty_audio_enabled') !== 'false';
+
+        mediaStream.getAudioTracks().forEach(t => t.enabled = initAudio);
+        if (!initVideo) {
+          mediaStream.getVideoTracks().forEach(track => {
+            track.stop();
+            mediaStream.removeTrack(track);
+          });
+        }
+
         currentStream = mediaStream;
         setStream(mediaStream);
         streamRef.current = mediaStream;
@@ -1313,6 +1333,20 @@ function WatchPartyRoom() {
           userVideo.current.srcObject = mediaStream;
           console.log('✅ Set local video element srcObject');
         }
+
+        // Add tracks to any peers that were created before getUserMedia resolved
+        peersRef.current.forEach(({ peer, socketId }) => {
+          if (peer && !peer.destroyed) {
+            console.log('📹 Adding initial stream tracks to existing peer:', socketId);
+            try {
+              mediaStream.getTracks().forEach(track => {
+                peer.addTrack(track, mediaStream);
+              });
+            } catch (err) {
+              console.warn('Could not add track to existing peer:', err);
+            }
+          }
+        });
 
         console.log('📹 Got media, joining room:', roomId);
 
@@ -1901,6 +1935,7 @@ function WatchPartyRoom() {
         });
 
         setIsVideoEnabled(false);
+        localStorage.setItem('watchparty_video_enabled', 'false');
         // Broadcast video off status to other participants
         socket.emit('media:status', { roomId, userId: user.id, type: 'video', enabled: false });
       } else {
@@ -1949,6 +1984,7 @@ function WatchPartyRoom() {
             });
           }
           setIsVideoEnabled(true);
+          localStorage.setItem('watchparty_video_enabled', 'true');
           // Broadcast video on status
           socket.emit('media:status', { roomId, userId: user.id, type: 'video', enabled: true });
         } catch (err) {
@@ -1963,6 +1999,7 @@ function WatchPartyRoom() {
           const newEnabled = !audioTrack.enabled;
           audioTrack.enabled = newEnabled;
           setIsAudioEnabled(newEnabled);
+          localStorage.setItem('watchparty_audio_enabled', JSON.stringify(newEnabled));
           // Broadcast audio status to other participants
           socket.emit('media:status', { roomId, userId: user.id, type: 'audio', enabled: newEnabled });
         }

@@ -64,6 +64,10 @@ export function ProfileProvider({ children }) {
       const movies = movieHistoryRes.data || [];
       const shows = tvHistoryRes.data || [];
 
+      if (movieHistoryRes.error || tvHistoryRes.error) {
+        console.warn("⚠️ Watch history schema out of date or missing. Please run profile-schema.sql in your Supabase SQL editor to fix the 400 Bad Request errors.");
+      }
+
       const combinedHistory = [
         ...movies.map(m => ({ ...m, type: 'movie' })),
         ...shows.map(s => ({ ...s, type: 'episode' }))
