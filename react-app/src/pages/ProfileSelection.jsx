@@ -5,13 +5,8 @@ import { supabase } from '../config/supabase';
 import '../styles/profile-selection.css';
 
 const AVATAR_COLORS = [
-  '#000000', '#111111', '#1a1a1a', '#222222',
-  '#2a2a2a', '#333333', '#444444', '#555555'
-];
-
-const AVATAR_ICONS = [
-  '👤', '🎭', '🎨', '🎮', '🎬', '🎵', '⭐', '🌟',
-  '🎪', '🎯', '🎲', '🎸', '🎹', '🎺', '🎻', '🎤'
+  '#ffb800', '#ff0000', '#000000', '#00ffff',
+  '#ff8800', '#ff00ff', '#800080', '#00ff00'
 ];
 
 const ProfileSelection = () => {
@@ -21,11 +16,11 @@ const ProfileSelection = () => {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [editingProfile, setEditingProfile] = useState(null);
   const [newProfile, setNewProfile] = useState({
     name: '',
-    avatar_color: '#3a3a3a',
-    avatar_icon: AVATAR_ICONS[0],
+    avatar_color: AVATAR_COLORS[0],
     is_kids: false
   });
 
@@ -80,7 +75,7 @@ const ProfileSelection = () => {
           account_id: user.id,
           name: newProfile.name,
           avatar_color: newProfile.avatar_color,
-          avatar_url: newProfile.avatar_icon,
+          avatar_url: '/assets/smiley.svg',
           is_kids: newProfile.is_kids
         }])
         .select()
@@ -92,8 +87,7 @@ const ProfileSelection = () => {
       setShowCreateModal(false);
       setNewProfile({
         name: '',
-        avatar_color: '#3a3a3a',
-        avatar_icon: AVATAR_ICONS[0],
+        avatar_color: AVATAR_COLORS[0],
         is_kids: false
       });
     } catch (error) {
@@ -111,7 +105,7 @@ const ProfileSelection = () => {
         .update({
           name: editingProfile.name,
           avatar_color: editingProfile.avatar_color,
-          avatar_url: editingProfile.avatar_icon,
+          avatar_url: '/assets/smiley.svg',
           is_kids: editingProfile.is_kids
         })
         .eq('id', editingProfile.id);
@@ -155,7 +149,7 @@ const ProfileSelection = () => {
   const openEditModal = (profile) => {
     setEditingProfile({
       ...profile,
-      avatar_icon: profile.avatar_url || AVATAR_ICONS[0]
+      avatar_icon: '/assets/smiley.svg'
     });
     setShowEditModal(true);
   };
@@ -176,7 +170,9 @@ const ProfileSelection = () => {
         <div className="profile-constellation">
           <svg className="constellation-lines" viewBox="-200 -200 400 400">
             {profiles.map((_, i) => {
-              const angle = (i * (360 / profiles.length)) * (Math.PI / 180) - (Math.PI / 2);
+              const angle = profiles.length === 2
+                ? (i * 180) * (Math.PI / 180)
+                : (i * (360 / profiles.length)) * (Math.PI / 180) - (Math.PI / 2);
               const radius = window.innerWidth <= 768 ? 130 : 180;
               const x = Math.cos(angle) * radius;
               const y = Math.sin(angle) * radius;
@@ -198,16 +194,21 @@ const ProfileSelection = () => {
             })}
           </svg>
 
-          <div
-            className={`profile-center-hub ${profiles.length >= 5 ? 'disabled' : ''}`}
-            onClick={() => { if (profiles.length < 5) setShowCreateModal(true); }}
-            title={profiles.length < 5 ? "Add Profile" : "Maximum Profiles Reached"}
-          >
-            <span className="hub-spark">✦</span>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.8rem', position: 'relative', zIndex: 10 }}>
+            <div
+              className={`profile-center-hub ${profiles.length >= 5 ? 'disabled' : ''}`}
+              onClick={() => { if (profiles.length < 5) setShowCreateModal(true); }}
+              title={profiles.length < 5 ? "Add Profile" : "Maximum Profiles Reached"}
+            >
+              <span className="hub-spark">✦</span>
+            </div>
+            <p className="profile-name">Add</p>
           </div>
 
           {profiles.map((profile, i) => {
-            const angle = (i * (360 / profiles.length)) * (Math.PI / 180) - (Math.PI / 2);
+            const angle = profiles.length === 2
+              ? (i * 180) * (Math.PI / 180)
+              : (i * (360 / profiles.length)) * (Math.PI / 180) - (Math.PI / 2);
             // Dynamic radius based on viewport width (handled closer in CSS variables)
             const radius = window.innerWidth <= 768 ? 130 : 180;
             const x = Math.cos(angle) * radius;
@@ -220,29 +221,46 @@ const ProfileSelection = () => {
                 style={{ '--tx': `${x}px`, '--ty': `${y}px`, '--rot': `${angle}rad` }}
                 onClick={() => selectProfile(profile)}
               >
-                <div
-                  className="profile-avatar"
-                  style={{ backgroundColor: profile.avatar_color }}
-                >
-                  <span className="profile-icon">
-                    {profile.avatar_url || '👤'}
-                  </span>
+                <div style={{ position: 'relative', width: '100px', height: '100px' }}>
+                  <div
+                    className="profile-avatar"
+                    style={{ backgroundColor: profile.avatar_color }}
+                  >
+                    <div className="profile-mask" style={{ WebkitMaskImage: `url(/assets/smiley.svg)`, maskImage: `url(/assets/smiley.svg)` }}></div>
+                  </div>
+                  {profile.is_kids && (
+                    <div className="profile-kids-badge" style={{ backgroundColor: profile.avatar_color }}>
+                      kids
+                    </div>
+                  )}
                 </div>
                 <p className="profile-name">{profile.name}</p>
-                <button
-                  className="profile-edit-btn"
-                  onClick={(e) => { e.stopPropagation(); openEditModal(profile); }}
-                >
-                  ✏️
-                </button>
+                {isEditMode && (
+                  <button
+                    className="profile-edit-btn"
+                    onClick={(e) => { e.stopPropagation(); openEditModal(profile); }}
+                  >
+                    <img src="/assets/edit-icon.svg" alt="Edit" style={{ width: '16px', height: '16px', filter: 'invert(1)' }} />
+                  </button>
+                )}
               </div>
             );
           })}
         </div>
 
-        <button className="manage-profiles-btn" onClick={() => navigate('/login')}>
-          Switch Account
-        </button>
+        <div className="profile-actions-row">
+          <button
+            className={`manage-profiles-btn ${isEditMode ? 'active' : ''}`}
+            onClick={() => setIsEditMode(!isEditMode)}
+          >
+            <img src="/assets/edit-icon.svg" alt="Edit" className="btn-edit-icon" />
+            {isEditMode ? 'Done' : 'Edit Profiles'}
+          </button>
+
+          <button className="manage-profiles-btn" onClick={() => navigate('/login')}>
+            Switch Account
+          </button>
+        </div>
       </div>
 
       {/* Create Profile Modal */}
@@ -260,20 +278,7 @@ const ProfileSelection = () => {
                 maxLength={50}
               />
 
-              <div className="avatar-selector">
-                <label>Choose Avatar Icon:</label>
-                <div className="avatar-icons-grid">
-                  {AVATAR_ICONS.map((icon) => (
-                    <div
-                      key={icon}
-                      className={`avatar-icon-option ${newProfile.avatar_icon === icon ? 'selected' : ''}`}
-                      onClick={() => setNewProfile({ ...newProfile, avatar_icon: icon })}
-                    >
-                      {icon}
-                    </div>
-                  ))}
-                </div>
-              </div>
+
 
               <div className="color-selector">
                 <label>Choose Color:</label>
@@ -326,20 +331,7 @@ const ProfileSelection = () => {
                 maxLength={50}
               />
 
-              <div className="avatar-selector">
-                <label>Choose Avatar Icon:</label>
-                <div className="avatar-icons-grid">
-                  {AVATAR_ICONS.map((icon) => (
-                    <div
-                      key={icon}
-                      className={`avatar-icon-option ${editingProfile.avatar_icon === icon ? 'selected' : ''}`}
-                      onClick={() => setEditingProfile({ ...editingProfile, avatar_icon: icon })}
-                    >
-                      {icon}
-                    </div>
-                  ))}
-                </div>
-              </div>
+
 
               <div className="color-selector">
                 <label>Choose Color:</label>
