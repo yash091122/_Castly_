@@ -8,6 +8,10 @@ import { getMovieById } from '../data/watchPartyMovies';
 import { db } from '../config/supabase';
 import { useContent } from '../context/ContentContext';
 import { useTvProgress } from '../context/TvProgressContext';
+
+// TURN server credentials from environment variables
+const TURN_USERNAME = import.meta.env.VITE_TURN_USERNAME || 'openrelayproject';
+const TURN_CREDENTIAL = import.meta.env.VITE_TURN_CREDENTIAL || 'openrelayproject';
 import contentService from '../services/contentService';
 import { useNotifications } from '../context/NotificationContext';
 import { WatchPartySkeleton } from '../components/skeletons';
@@ -510,55 +514,34 @@ function WatchPartyRoom() {
         stream: streamToSend,
         config: {
           iceServers: [
+            // Metered.ca STUN server
+            { urls: 'stun:stun.relay.metered.ca:80' },
             // Google STUN servers
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
             { urls: 'stun:stun2.l.google.com:19302' },
-            { urls: 'stun:stun3.l.google.com:19302' },
-            { urls: 'stun:stun4.l.google.com:19302' },
-            // Additional STUN 
-            { urls: 'stun:stun.cloudflare.com:3478' },
-            // Twilio STUN
-            { urls: 'stun:global.stun.twilio.com:3478' },
-            // OpenRelay TURN servers (multiple endpoints)
+            // Metered.ca TURN servers (using your credentials)
             {
-              urls: 'turn:openrelay.metered.ca:80',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:80',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:openrelay.metered.ca:443',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:80?transport=tcp',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
-            },
-            // Relay servers
-            {
-              urls: 'turn:relay.metered.ca:80',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:443',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:relay.metered.ca:443',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turns:global.relay.metered.ca:443?transport=tcp',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
-            {
-              urls: 'turn:relay.metered.ca:443?transport=tcp',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
-            },
-            // Numb TURN
-            {
-              urls: 'turn:numb.viagenie.ca',
-              username: 'webrtc@live.com',
-              credential: 'muazkh'
-            },
-            // Additional STUN servers for better connectivity
+            // Backup STUN servers
             { urls: 'stun:stun.services.mozilla.com' },
             { urls: 'stun:stun.stunprotocol.org:3478' }
           ],
@@ -969,6 +952,8 @@ function WatchPartyRoom() {
         stream: localStream || null,
         config: {
           iceServers: [
+            // Metered.ca STUN server
+            { urls: 'stun:stun.relay.metered.ca:80' },
             // Google STUN servers
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
@@ -977,37 +962,26 @@ function WatchPartyRoom() {
             { urls: 'stun:stun4.l.google.com:19302' },
             // Twilio STUN
             { urls: 'stun:global.stun.twilio.com:3478' },
-            // OpenRelay TURN servers (multiple endpoints)
+            // Metered.ca TURN servers (using your credentials)
             {
-              urls: 'turn:openrelay.metered.ca:80',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:80',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:openrelay.metered.ca:443',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:80?transport=tcp',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:openrelay.metered.ca:443?transport=tcp',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
-            },
-            // Relay servers
-            {
-              urls: 'turn:relay.metered.ca:80',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turn:global.relay.metered.ca:443',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             {
-              urls: 'turn:relay.metered.ca:443',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
-            },
-            {
-              urls: 'turn:relay.metered.ca:443?transport=tcp',
-              username: 'openrelayproject',
-              credential: 'openrelayproject'
+              urls: 'turns:global.relay.metered.ca:443?transport=tcp',
+              username: TURN_USERNAME,
+              credential: TURN_CREDENTIAL
             },
             // Numb TURN
             {
