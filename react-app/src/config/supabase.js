@@ -39,22 +39,34 @@ export const auth = {
                 }
             });
 
-            if (error) return { data, error };
+            if (error) {
+                console.error('❌ Supabase signUp error:', error);
+                return { data, error };
+            }
 
             // Fallback: If trigger didn't create profile, create it manually
             if (data?.user && !error) {
                 try {
+                    console.log('✅ User created:', data.user.id);
+                    
+                    // Wait a moment for trigger to execute
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
                     // Check if profile exists
-                    const { data: existingProfile } = await supabase
+                    const { data: existingProfile, error: checkError } = await supabase
                         .from('profiles')
                         .select('id')
                         .eq('id', data.user.id)
                         .maybeSingle();
 
+                    if (checkError) {
+                        console.error('❌ Error checking profile:', checkError);
+                    }
+
                     // If profile doesn't exist, create it
                     if (!existingProfile) {
                         console.log('⚠️ Profile not created by trigger, creating manually...');
-                        const { error: profileError } = await supabase
+                        const { data: newProfile, error: profileError } = await supabase
                             .from('profiles')
                             .insert({
                                 id: data.user.id,
@@ -62,23 +74,52 @@ export const auth = {
                                 username: username,
                                 display_name: username,
                                 online_status: false
-                            });
+                            })
+                            .select()
+                            .single();
 
                         if (profileError) {
-                            console.error('❌ Failed to create profile manually:', profileError);
+                            console.error('❌ Failed to create profile manually:', {
+                                error: profileError,
+                                code: profileError.code,
+                                message: profileError.message,
+                                details: profileError.details,
+                                hint: profileError.hint
+                            });
+                            
+                            // Check if it's a unique constraint violation
+                            if (profileError.code === '23505') {
+                                return {
+                                    data,
+                                    error: {
+                                        message: 'Username already exists. Please choose a different username.',
+                                        code: 'username_taken'
+                                    }
+                                };
+                            }
+                            
                             // Return a more user-friendly error
                             return {
                                 data: null,
                                 error: {
-                                    message: 'Failed to create user profile. Please contact support.',
+                                    message: `Database error: ${profileError.message || 'Failed to create user profile'}`,
                                     details: profileError
                                 }
                             };
                         }
-                        console.log('✅ Profile created manually');
+                        console.log('✅ Profile created manually:', newProfile);
+                    } else {
+                        console.log('✅ Profile already exists (created by trigger)');
                     }
                 } catch (profileCheckError) {
                     console.error('❌ Error checking/creating profile:', profileCheckError);
+                    return {
+                        data: null,
+                        error: {
+                            message: `Unexpected error: ${profileCheckError.message}`,
+                            details: profileCheckError
+                        }
+                    };
                 }
             }
 
