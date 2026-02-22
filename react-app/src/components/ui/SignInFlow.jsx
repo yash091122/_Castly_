@@ -41,13 +41,10 @@ export const SignInPage = ({ mode = "signin" }) => {
                 .from('profiles')
                 .select('username')
                 .eq('username', username)
-                .single();
+                .maybeSingle(); // Use maybeSingle instead of single to avoid 406
 
             if (data) {
                 setErrors(prev => ({ ...prev, username: 'Username already taken' }));
-            } else if (error && error.code !== 'PGRST116') {
-                // PGRST116 means no rows found, which is good
-                console.error('Error checking username:', error);
             } else {
                 // Username is available
                 setErrors(prev => {
@@ -56,8 +53,16 @@ export const SignInPage = ({ mode = "signin" }) => {
                     return newErrors;
                 });
             }
+            
+            if (error && error.code !== 'PGRST116') {
+                console.error('Error checking username:', error);
+            }
         } catch (err) {
             console.error('Username check failed:', err);
+        } finally {
+            setCheckingUsername(false);
+        }
+    };
         } finally {
             setCheckingUsername(false);
         }

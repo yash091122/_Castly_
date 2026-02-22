@@ -31,12 +31,17 @@ AS $$
 DECLARE
   v_username TEXT;
   v_display_name TEXT;
+  v_counter INTEGER := 0;
 BEGIN
   -- Extract username from metadata or generate from email
   v_username := COALESCE(
     NEW.raw_user_meta_data->>'username',
     split_part(NEW.email, '@', 1)
   );
+  
+  -- Sanitize username (remove special characters, limit length)
+  v_username := regexp_replace(v_username, '[^a-zA-Z0-9_]', '_', 'g');
+  v_username := substring(v_username, 1, 50);
   
   -- Extract display name
   v_display_name := COALESCE(
@@ -45,68 +50,90 @@ BEGIN
     split_part(NEW.email, '@', 1)
   );
   
-  -- Insert into profiles
-  INSERT INTO profiles (
-    id, 
-    email, 
-    username, 
-    display_name, 
-    avatar_url,
-    online_status,
-    created_at,
-    updated_at
-  )
-  VALUES (
-    NEW.id,
-    NEW.email,
-    v_username,
-    v_display_name,
-    NEW.raw_user_meta_data->>'avatar_url',
-    false,
-    NOW(),
-    NOW()
-  )
-  ON CONFLICT (id) DO UPDATE SET
-    email = EXCLUDED.email,
-    username = COALESCE(EXCLUDED.username, profiles.username),
-    display_name = COALESCE(EXCLUDED.display_name, profiles.display_name),
-    avatar_url = COALESCE(EXCLUDED.avatar_url, profiles.avatar_url),
-    updated_at = NOW();
+  -- Try to insert, handle username conflicts
+  LOOP
+    BEGIN
+      INSERT INTO profiles (
+        id, 
+        email, 
+        username, 
+        display_name, 
+        avatar_url,
+        online_status,
+        created_at,
+        updated_at
+      )
+      VALUES (
+        NEW.id,
+        NEW.email,
+        CASE 
+          WHEN v_counter = 0 THEN v_username
+          ELSE v_username || '_' || v_counter
+        END,
+        v_display_name,
+        NEW.raw_user_meta_data->>'avatar_url',
+        false,
+        NOW(),
+        NOW()
+      )
+      ON CONFLICT (id) DO UPDATE SET
+        email = EXCLUDED.email,
+        updated_at = NOW();
+        
+      -- Success, exit loop
+      EXIT;
+      
+    EXCEPTION
+      WHEN unique_violation THEN
+        -- Username taken, try with counter
+        v_counter := v_counter + 1;
+        
+        -- Prevent infinite loop
+        IF v_counter > 100 THEN
+          -- Use UUID as last resort
+          v_username := 'user_' || substr(NEW.id::text, 1, 8);
+          v_counter := 0;
+        END IF;
+        
+        -- Continue loop to try again
+    END;
+  END LOOP;
     
   RETURN NEW;
+  
 EXCEPTION
-  WHEN unique_violation THEN
-    -- If username is taken, append a number
-    v_username := v_username || '_' || substr(NEW.id::text, 1, 8);
-    
-    INSERT INTO profiles (
-      id, 
-      email, 
-      username, 
-      display_name, 
-      avatar_url,
-      online_status,
-      created_at,
-      updated_at
-    )
-    VALUES (
-      NEW.id,
-      NEW.email,
-      v_username,
-      v_display_name,
-      NEW.raw_user_meta_data->>'avatar_url',
-      false,
-      NOW(),
-      NOW()
-    )
-    ON CONFLICT (id) DO UPDATE SET
-      email = EXCLUDED.email,
-      updated_at = NOW();
-      
-    RETURN NEW;
   WHEN OTHERS THEN
     -- Log error but don't fail user creation
-    RAISE WARNING 'Error in handle_new_user for user %: % %', NEW.id, SQLERRM, SQLSTATE;
+    RAISE WARNING 'Error in handle_new_user for user %: % (SQLSTATE: %)', NEW.id, SQLERRM, SQLSTATE;
+    
+    -- Try one last time with a guaranteed unique username
+    BEGIN
+      INSERT INTO profiles (
+        id, 
+        email, 
+        username, 
+        display_name, 
+        avatar_url,
+        online_status,
+        created_at,
+        updated_at
+      )
+      VALUES (
+        NEW.id,
+        NEW.email,
+        'user_' || replace(NEW.id::text, '-', ''),
+        v_display_name,
+        NEW.raw_user_meta_data->>'avatar_url',
+        false,
+        NOW(),
+        NOW()
+      )
+      ON CONFLICT (id) DO NOTHING;
+    EXCEPTION
+      WHEN OTHERS THEN
+        RAISE WARNING 'Final fallback failed for user %: %', NEW.id, SQLERRM;
+    END;
+    
     RETURN NEW;
 END;
 $$;
