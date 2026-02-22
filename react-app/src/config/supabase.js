@@ -23,21 +23,76 @@ export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
 // Auth helpers
 export const auth = {
     signUp: async (email, password, username) => {
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    username,
-                    display_name: username
-                },
-                // Email redirect URL for confirmation
-                emailRedirectTo: `${window.location.origin}/auth/callback`,
-                // Disable email confirmation for immediate access
-                emailConfirmation: false
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        username,
+                        display_name: username
+                    },
+                    // Email redirect URL for confirmation
+                    emailRedirectTo: `${window.location.origin}/auth/callback`,
+                    // Disable email confirmation for immediate access
+                    emailConfirmation: false
+                }
+            });
+
+            if (error) return { data, error };
+
+            // Fallback: If trigger didn't create profile, create it manually
+            if (data?.user && !error) {
+                try {
+                    // Check if profile exists
+                    const { data: existingProfile } = await supabase
+                        .from('profiles')
+                        .select('id')
+                        .eq('id', data.user.id)
+                        .maybeSingle();
+
+                    // If profile doesn't exist, create it
+                    if (!existingProfile) {
+                        console.log('⚠️ Profile not created by trigger, creating manually...');
+                        const { error: profileError } = await supabase
+                            .from('profiles')
+                            .insert({
+                                id: data.user.id,
+                                email: email,
+                                username: username,
+                                display_name: username,
+                                online_status: false
+                            });
+
+                        if (profileError) {
+                            console.error('❌ Failed to create profile manually:', profileError);
+                            // Return a more user-friendly error
+                            return {
+                                data: null,
+                                error: {
+                                    message: 'Failed to create user profile. Please contact support.',
+                                    details: profileError
+                                }
+                            };
+                        }
+                        console.log('✅ Profile created manually');
+                    }
+                } catch (profileCheckError) {
+                    console.error('❌ Error checking/creating profile:', profileCheckError);
+                }
             }
-        });
-        return { data, error };
+
+            return { data, error };
+        } catch (err) {
+            console.error('❌ Signup error:', err);
+            return {
+                data: null,
+                error: {
+                    message: 'An unexpected error occurred during signup. Please try again.',
+                    details: err
+                }
+            };
+        }
     },
 
     signIn: async (email, password) => {
