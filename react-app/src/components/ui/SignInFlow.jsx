@@ -35,6 +35,7 @@ export const SignInPage = ({ mode = "signin" }) => {
     }, [formData.username, isSignUp]);
 
     const checkUsernameAvailability = async (username) => {
+    const checkUsernameAvailability = async (username) => {
         setCheckingUsername(true);
         try {
             const { data, error } = await supabase
@@ -59,10 +60,6 @@ export const SignInPage = ({ mode = "signin" }) => {
             }
         } catch (err) {
             console.error('Username check failed:', err);
-        } finally {
-            setCheckingUsername(false);
-        }
-    };
         } finally {
             setCheckingUsername(false);
         }
