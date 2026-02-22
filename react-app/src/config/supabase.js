@@ -24,18 +24,15 @@ export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
 export const auth = {
     signUp: async (email, password, username) => {
         try {
+            console.log('🔐 Starting signup process...', { email, username });
+            
+            // Step 1: Create auth user (without metadata to avoid trigger issues)
             const { data, error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
-                    data: {
-                        username,
-                        display_name: username
-                    },
-                    // Email redirect URL for confirmation
                     emailRedirectTo: `${window.location.origin}/auth/callback`,
-                    // Disable email confirmation for immediate access
-                    emailConfirmation: false
+                    data: {} // Empty metadata to avoid trigger issues
                 }
             });
 
@@ -44,86 +41,93 @@ export const auth = {
                 return { data, error };
             }
 
-            // Fallback: If trigger didn't create profile, create it manually
-            if (data?.user && !error) {
-                try {
-                    console.log('✅ User created:', data.user.id);
+            if (!data?.user) {
+                console.error('❌ No user returned from signup');
+                return { 
+                    data: null, 
+                    error: { message: 'Failed to create user account' } 
+                };
+            }
+
+            console.log('✅ Auth user created:', data.user.id);
+            
+            // Step 2: Create profile manually (always, don't rely on trigger)
+            try {
+                console.log('📝 Creating profile...');
+                
+                // Wait a moment to ensure auth user is fully created
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const { data: newProfile, error: profileError } = await supabase
+                    .from('profiles')
+                    .insert({
+                        id: data.user.id,
+                        email: email,
+                        username: username,
+                        display_name: username,
+                        online_status: false,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString()
+                    })
+                    .select()
+                    .single();
+
+                if (profileError) {
+                    console.error('❌ Profile creation error:', {
+                        error: profileError,
+                        code: profileError.code,
+                        message: profileError.message,
+                        details: profileError.details
+                    });
                     
-                    // Wait a moment for trigger to execute
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                    
-                    // Check if profile exists
-                    const { data: existingProfile, error: checkError } = await supabase
-                        .from('profiles')
-                        .select('id')
-                        .eq('id', data.user.id)
-                        .maybeSingle();
-
-                    if (checkError) {
-                        console.error('❌ Error checking profile:', checkError);
-                    }
-
-                    // If profile doesn't exist, create it
-                    if (!existingProfile) {
-                        console.log('⚠️ Profile not created by trigger, creating manually...');
-                        const { data: newProfile, error: profileError } = await supabase
-                            .from('profiles')
-                            .insert({
-                                id: data.user.id,
-                                email: email,
-                                username: username,
-                                display_name: username,
-                                online_status: false
-                            })
-                            .select()
-                            .single();
-
-                        if (profileError) {
-                            console.error('❌ Failed to create profile manually:', {
-                                error: profileError,
-                                code: profileError.code,
-                                message: profileError.message,
-                                details: profileError.details,
-                                hint: profileError.hint
-                            });
-                            
-                            // Check if it's a unique constraint violation
-                            if (profileError.code === '23505') {
-                                return {
-                                    data,
-                                    error: {
-                                        message: 'Username already exists. Please choose a different username.',
-                                        code: 'username_taken'
-                                    }
-                                };
-                            }
-                            
-                            // Return a more user-friendly error
-                            return {
-                                data: null,
-                                error: {
-                                    message: `Database error: ${profileError.message || 'Failed to create user profile'}`,
-                                    details: profileError
-                                }
-                            };
-                        }
-                        console.log('✅ Profile created manually:', newProfile);
-                    } else {
+                    // Check if profile already exists (race condition with trigger)
+                    if (profileError.code === '23505' && profileError.message.includes('profiles_pkey')) {
                         console.log('✅ Profile already exists (created by trigger)');
+                        return { data, error: null };
                     }
-                } catch (profileCheckError) {
-                    console.error('❌ Error checking/creating profile:', profileCheckError);
+                    
+                    // Check if it's a username conflict
+                    if (profileError.code === '23505' && profileError.message.includes('username')) {
+                        return {
+                            data: null,
+                            error: {
+                                message: 'Username already exists. Please choose a different username.',
+                                code: 'username_taken'
+                            }
+                        };
+                    }
+                    
+                    // For other errors, try to clean up the auth user
+                    console.error('❌ Failed to create profile, cleaning up auth user...');
+                    try {
+                        await supabase.auth.admin.deleteUser(data.user.id);
+                    } catch (cleanupError) {
+                        console.error('Failed to cleanup user:', cleanupError);
+                    }
+                    
                     return {
                         data: null,
                         error: {
-                            message: `Unexpected error: ${profileCheckError.message}`,
-                            details: profileCheckError
+                            message: `Failed to create profile: ${profileError.message}`,
+                            details: profileError
                         }
                     };
                 }
+                
+                console.log('✅ Profile created successfully:', newProfile);
+                return { data, error: null };
+                
+            } catch (profileError) {
+                console.error('❌ Unexpected error creating profile:', profileError);
+                return {
+                    data: null,
+                    error: {
+                        message: `Unexpected error: ${profileError.message}`,
+                        details: profileError
+                    }
+                };
             }
-
-            return { data, error };
+            
         } catch (err) {
             console.error('❌ Signup error:', err);
             return {
