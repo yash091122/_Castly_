@@ -1,0 +1,487 @@
+/* TV Player Styles - Black, White, and Shades with Red for danger/cancel */
+
+.tv-player-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 9999;
+    cursor: none;
+}
+
+.tv-player-container.show-controls {
+    cursor: default;
+}
+
+.tv-player-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+}
+
+/* Back Button */
+.tv-player-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.tv-player-back-btn.visible {
+    opacity: 1;
+}
+
+.tv-player-back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Episode Info Overlay */
+.tv-episode-info-overlay {
+    position: absolute;
+    top: 20px;
+    left: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 15;
+}
+
+.tv-episode-info-overlay.visible {
+    opacity: 1;
+}
+
+.tv-show-title {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tv-episode-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Sync Badge */
+.tv-player-sync-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    z-index: 15;
+}
+
+/* Center Play Button */
+.tv-player-center-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 10;
+}
+
+.tv-player-center-play svg {
+    color: #000;
+    margin-left: 5px;
+}
+
+.tv-player-center-play:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: #fff;
+}
+
+/* Control Bar */
+.tv-player-control-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 30px 30px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 15;
+}
+
+.tv-player-control-bar.visible {
+    opacity: 1;
+}
+
+/* Progress Bar */
+.tv-player-progress {
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.tv-player-progress-bg {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    position: relative;
+    transition: height 0.2s ease;
+}
+
+.tv-player-progress:hover .tv-player-progress-bg {
+    height: 6px;
+}
+
+.tv-player-progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 2px;
+    position: relative;
+    transition: width 0.1s linear;
+}
+
+.tv-player-progress-thumb {
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tv-player-progress:hover .tv-player-progress-thumb {
+    opacity: 1;
+}
+
+/* Controls Row */
+.tv-player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tv-player-controls-left,
+.tv-player-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tv-player-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tv-player-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.tv-player-btn-play {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.tv-player-btn-play:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tv-player-btn-next {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.tv-player-btn-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tv-player-time {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-variant-numeric: tabular-nums;
+    margin-left: 10px;
+}
+
+/* Auto-play Toggle */
+.tv-player-btn-autoplay {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tv-player-btn-autoplay .tv-autoplay-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: background 0.2s ease;
+}
+
+.tv-player-btn-autoplay.active .tv-autoplay-indicator {
+    background: #22c55e;
+}
+
+/* Auto-Play Overlay */
+.tv-autoplay-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tv-autoplay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.tv-autoplay-countdown {
+    position: relative;
+}
+
+.tv-countdown-ring {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.tv-countdown-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.tv-countdown-ring circle {
+    transition: stroke-dasharray 1s linear;
+}
+
+.tv-countdown-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.tv-autoplay-next {
+    width: 100%;
+}
+
+.tv-autoplay-label {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.tv-autoplay-episode {
+    display: flex;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.tv-autoplay-thumb {
+    width: 140px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.tv-autoplay-info {
+    padding: 10px 16px 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tv-autoplay-ep-num {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tv-autoplay-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 4px 0;
+}
+
+.tv-autoplay-duration {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.tv-autoplay-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.tv-autoplay-btn {
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tv-autoplay-play {
+    background: #fff;
+    color: #000;
+}
+
+.tv-autoplay-play:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+}
+
+.tv-autoplay-cancel {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tv-autoplay-cancel:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: #dc2626;
+    color: #dc2626;
+}
+
+/* Loading State */
+.tv-player-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    gap: 20px;
+}
+
+.tv-player-loading a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tv-player-control-bar {
+        padding: 15px 20px 25px;
+    }
+
+    .tv-player-btn-next span {
+        display: none;
+    }
+
+    .tv-episode-info-overlay {
+        left: 70px;
+    }
+
+    .tv-episode-title {
+        font-size: 1rem;
+    }
+
+    .tv-autoplay-content {
+        padding: 20px;
+    }
+
+    .tv-autoplay-episode {
+        flex-direction: column;
+    }
+
+    .tv-autoplay-thumb {
+        width: 100%;
+        height: 120px;
+    }
+
+    .tv-autoplay-info {
+        padding: 12px;
+    }
+}

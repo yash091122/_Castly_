@@ -1,0 +1,166 @@
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.loader-spinner {
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) infinite;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.loader-spinner.small {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+}
+
+.loader-spinner.medium {
+    width: 48px;
+    height: 48px;
+    border-width: 3px;
+}
+
+.loader-spinner.large {
+    width: 64px;
+    height: 64px;
+    border-width: 4px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Skeleton Fullscreen Loader --- */
+.skeleton-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primary-bg, #0f0f0f);
+    z-index: 9999;
+    padding: 20px 4%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow: hidden;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+    0% {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    50% {
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+
+    100% {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.skeleton-fullscreen * {
+    animation: shimmer 1.5s infinite ease-in-out;
+    border-radius: 8px;
+}
+
+/* Nav */
+.skeleton-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    background-color: transparent !important;
+    animation: none !important;
+}
+
+.skeleton-logo {
+    width: 120px;
+    height: 32px;
+}
+
+.skeleton-nav-links {
+    display: flex;
+    gap: 20px;
+    background-color: transparent !important;
+    animation: none !important;
+}
+
+.skeleton-link {
+    width: 80px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.skeleton-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Hero */
+.skeleton-hero {
+    width: 100%;
+    height: 350px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Rows */
+.skeleton-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: transparent !important;
+    animation: none !important;
+}
+
+.skeleton-title {
+    width: 200px;
+    height: 28px;
+    border-radius: 6px;
+}
+
+.skeleton-cards {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    background-color: transparent !important;
+    animation: none !important;
+}
+
+.skeleton-card {
+    min-width: 280px;
+    height: 160px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .skeleton-nav-links {
+        display: none;
+    }
+
+    .skeleton-hero {
+        height: 200px;
+    }
+
+    .skeleton-card {
+        min-width: 200px;
+        height: 120px;
+    }
+}

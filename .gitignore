@@ -1,0 +1,32 @@
+# Dependencies
+node_modules
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+
+# Editor directories
+.vscode
+.idea
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output
+dist
+dist-ssr
+
+# Large video files
+*.mkv
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+
+# Lock files (optional - remove if you want to track these)
+bun.lock

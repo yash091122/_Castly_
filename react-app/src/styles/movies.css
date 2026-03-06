@@ -1,0 +1,520 @@
+/* ============================================
+   CASTLY MOVIES PAGE STYLES
+   Theme: Black, White, Grays with Red accents
+   ============================================ */
+
+/* Hero Banner Section */
+.movies-hero {
+    position: relative;
+    height: 65vh;
+    min-height: 450px;
+    overflow: hidden;
+    margin: -20px -20px 30px -20px;
+    border-radius: 0 0 20px 20px;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.hero-slide.active {
+    opacity: 1;
+}
+
+.hero-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1);
+    transition: transform 8s ease-out;
+}
+
+.hero-slide.active .hero-backdrop {
+    transform: scale(1.05);
+}
+
+.hero-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.7) 40%,
+        rgba(0, 0, 0, 0.3) 70%,
+        transparent 100%
+    ),
+    linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.9) 0%,
+        transparent 50%
+    );
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 15%;
+    left: 5%;
+    max-width: 550px;
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+    line-height: 1.1;
+}
+
+.hero-tagline {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.hero-rating svg {
+    color: #fbbf24;
+}
+
+.hero-meta-item {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+}
+
+.hero-genres {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.hero-genre-tag {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+}
+
+.hero-btn-primary {
+    background: #fff;
+    color: #000;
+}
+
+.hero-btn-primary:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+
+.hero-btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.hero-btn-favorite {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem;
+}
+
+.hero-btn-favorite:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #dc2626;
+    color: #dc2626;
+}
+
+.hero-btn-favorite.active {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: #dc2626;
+    color: #dc2626;
+}
+
+/* Hero Navigation Dots */
+.hero-dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.hero-dot.active {
+    background: #fff;
+    transform: scale(1.2);
+}
+
+.hero-dot:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* Movie Row Container */
+.movie-row-container {
+    position: relative;
+}
+
+.movie-row-container .scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.movie-row-container:hover .scroll-button {
+    opacity: 1;
+}
+
+.movie-row-container .scroll-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.movie-row-container .scroll-button.prev {
+    left: 5px;
+}
+
+.movie-row-container .scroll-button.next {
+    right: 5px;
+}
+
+/* Search & Filter Section */
+.movies-search-section {
+    margin-bottom: 2rem;
+    padding: 0 10px;
+}
+
+.search-bar-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Search Suggestions */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-top: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 100;
+    backdrop-filter: blur(20px);
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-poster {
+    width: 45px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.suggestion-info h4 {
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.suggestion-info span {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+}
+
+/* Filter Section */
+.filters-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.filter-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+    color: #fff;
+}
+
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-top: 5px;
+    padding: 0.5rem 0;
+    z-index: 50;
+    backdrop-filter: blur(20px);
+}
+
+.filter-option {
+    padding: 0.7rem 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.filter-option.selected {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.clear-filters {
+    background: transparent;
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    color: #dc2626;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.clear-filters:hover {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: #dc2626;
+}
+
+/* No Results */
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.no-results svg {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.no-results h3 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .movies-hero {
+        height: 55vh;
+        min-height: 380px;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content {
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+    .movies-hero {
+        height: 50vh;
+        min-height: 320px;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-tagline {
+        font-size: 0.95rem;
+    }
+    
+    .hero-content {
+        left: 15px;
+        right: 15px;
+        max-width: none;
+        bottom: 20%;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .hero-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1.2rem;
+    }
+    
+    .filters-container {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    .filter-btn {
+        white-space: nowrap;
+    }
+}

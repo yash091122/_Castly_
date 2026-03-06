@@ -1,0 +1,612 @@
+/* ============================================
+   RESPONSIVE UTILITY CLASSES
+   ============================================ */
+
+/* ============================================
+   VISIBILITY UTILITIES
+   ============================================ */
+
+/* Hide on mobile */
+.hide-mobile {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile */
+.show-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Hide on tablet */
+.hide-tablet {
+  display: block;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Show only on tablet */
+.show-tablet {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .show-tablet {
+    display: block !important;
+  }
+}
+
+/* Hide on desktop */
+.hide-desktop {
+  display: block;
+}
+
+@media (min-width: 1025px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Show only on desktop */
+.show-desktop {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .show-desktop {
+    display: block !important;
+  }
+}
+
+/* Hide on TV */
+.hide-tv {
+  display: block;
+}
+
+@media (min-width: 1921px) {
+  .hide-tv {
+    display: none !important;
+  }
+}
+
+/* Show only on TV */
+.show-tv {
+  display: none;
+}
+
+@media (min-width: 1921px) {
+  .show-tv {
+    display: block !important;
+  }
+}
+
+/* ============================================
+   SPACING UTILITIES
+   ============================================ */
+
+/* Responsive padding */
+.p-responsive {
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .p-responsive {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .p-responsive {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .p-responsive {
+    padding: 50px;
+  }
+}
+
+/* Responsive margin */
+.m-responsive {
+  margin: 10px;
+}
+
+@media (min-width: 768px) {
+  .m-responsive {
+    margin: 20px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .m-responsive {
+    margin: 30px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .m-responsive {
+    margin: 50px;
+  }
+}
+
+/* Responsive gap */
+.gap-responsive {
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .gap-responsive {
+    gap: 15px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .gap-responsive {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .gap-responsive {
+    gap: 30px;
+  }
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITIES
+   ============================================ */
+
+/* Responsive heading */
+.heading-responsive {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .heading-responsive {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .heading-responsive {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .heading-responsive {
+    font-size: 3.5rem;
+  }
+}
+
+/* Responsive text */
+.text-responsive {
+  font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+  .text-responsive {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-responsive {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .text-responsive {
+    font-size: 1.4rem;
+  }
+}
+
+/* Responsive small text */
+.text-small-responsive {
+  font-size: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .text-small-responsive {
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-small-responsive {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .text-small-responsive {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+/* Responsive container */
+.container-responsive {
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 720px;
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .container-responsive {
+    max-width: 1200px;
+    padding: 0 30px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .container-responsive {
+    max-width: 1800px;
+    padding: 0 50px;
+  }
+}
+
+/* Responsive grid */
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .grid-responsive {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+  }
+}
+
+/* Responsive flex */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+    gap: 15px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .flex-responsive {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .flex-responsive {
+    gap: 30px;
+  }
+}
+
+/* ============================================
+   BUTTON UTILITIES
+   ============================================ */
+
+/* Responsive button */
+.btn-responsive {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  min-height: 44px;
+}
+
+@media (min-width: 768px) {
+  .btn-responsive {
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .btn-responsive {
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .btn-responsive {
+    padding: 20px 40px;
+    font-size: 1.4rem;
+    border-radius: 16px;
+    min-height: 60px;
+  }
+}
+
+/* Responsive icon button */
+.btn-icon-responsive {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .btn-icon-responsive {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .btn-icon-responsive {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .btn-icon-responsive {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+}
+
+/* ============================================
+   CARD UTILITIES
+   ============================================ */
+
+/* Responsive card */
+.card-responsive {
+  padding: 15px;
+  border-radius: 12px;
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    padding: 20px;
+    border-radius: 14px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .card-responsive {
+    padding: 25px;
+    border-radius: 16px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .card-responsive {
+    padding: 40px;
+    border-radius: 24px;
+  }
+}
+
+/* ============================================
+   IMAGE UTILITIES
+   ============================================ */
+
+/* Responsive image */
+.img-responsive {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+  .img-responsive {
+    border-radius: 10px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .img-responsive {
+    border-radius: 12px;
+  }
+}
+
+@media (min-width: 1921px) {
+  .img-responsive {
+    border-radius: 16px;
+  }
+}
+
+/* ============================================
+   TOUCH UTILITIES
+   ============================================ */
+
+/* Touch-friendly tap target */
+.tap-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 1921px) {
+  .tap-target {
+    min-width: 60px;
+    min-height: 60px;
+  }
+}
+
+/* Touch feedback */
+.touch-feedback {
+  transition: transform 0.1s;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .touch-feedback:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ============================================
+   SCROLL UTILITIES
+   ============================================ */
+
+/* Horizontal scroll container */
+.scroll-horizontal {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Vertical scroll container */
+.scroll-vertical {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.scroll-vertical::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-vertical::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-vertical::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+/* ============================================
+   ORIENTATION UTILITIES
+   ============================================ */
+
+/* Portrait only */
+.portrait-only {
+  display: block;
+}
+
+@media (orientation: landscape) {
+  .portrait-only {
+    display: none !important;
+  }
+}
+
+/* Landscape only */
+.landscape-only {
+  display: none;
+}
+
+@media (orientation: landscape) {
+  .landscape-only {
+    display: block !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY UTILITIES
+   ============================================ */
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible */
+.focus-visible:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   SAFE AREA UTILITIES (for notched devices)
+   ============================================ */
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+.safe-area-all {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}

@@ -1,0 +1,710 @@
+/* ============================================
+   PAGE-SPECIFIC RESPONSIVE STYLES
+   ============================================ */
+
+/* ============================================
+   HOME PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .page-container {
+    padding: 10px !important;
+  }
+
+  .page-header {
+    padding: 15px 10px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .page-header h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .page-header p {
+    font-size: 0.9rem !important;
+  }
+
+  .page-tabs {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    padding: 10px 5px !important;
+    scrollbar-width: none !important;
+  }
+
+  .page-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .tab-btn {
+    padding: 10px 15px !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+    min-width: auto !important;
+  }
+
+  .tab-btn svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .badge {
+    font-size: 0.7rem !important;
+    padding: 2px 6px !important;
+    min-width: 20px !important;
+  }
+
+  .content-section {
+    margin-bottom: 25px !important;
+  }
+
+  .content-section-header {
+    padding: 0 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .content-section-title {
+    font-size: 1.2rem !important;
+  }
+
+  .content-section-title svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .scroll-row {
+    padding: 0 10px !important;
+  }
+
+  .scroll-row-inner {
+    gap: 12px !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .page-header h1 {
+    font-size: 2.2rem !important;
+  }
+
+  .tab-btn {
+    padding: 12px 20px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .content-section-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .page-header h1 {
+    font-size: 3.5rem !important;
+  }
+
+  .page-header p {
+    font-size: 1.5rem !important;
+  }
+
+  .tab-btn {
+    padding: 18px 35px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .tab-btn svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .badge {
+    font-size: 1.1rem !important;
+    padding: 5px 12px !important;
+  }
+
+  .content-section-title {
+    font-size: 2.2rem !important;
+  }
+
+  .content-section-title svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}
+
+/* ============================================
+   MOVIE/TV DETAIL PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .detail-page {
+    padding: 10px !important;
+  }
+
+  .detail-backdrop {
+    height: 200px !important;
+  }
+
+  .detail-content {
+    padding: 15px !important;
+    margin-top: -50px !important;
+  }
+
+  .detail-poster {
+    width: 100px !important;
+    height: 150px !important;
+  }
+
+  .detail-info {
+    margin-left: 0 !important;
+    margin-top: 15px !important;
+  }
+
+  .detail-title {
+    font-size: 1.5rem !important;
+  }
+
+  .detail-meta {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .detail-meta span {
+    font-size: 0.8rem !important;
+    padding: 4px 10px !important;
+  }
+
+  .detail-actions {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  .detail-btn {
+    padding: 10px 20px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .detail-overview {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .detail-section {
+    margin-top: 20px !important;
+  }
+
+  .detail-section h3 {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .detail-backdrop {
+    height: 300px !important;
+  }
+
+  .detail-poster {
+    width: 150px !important;
+    height: 225px !important;
+  }
+
+  .detail-title {
+    font-size: 2rem !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .detail-backdrop {
+    height: 600px !important;
+  }
+
+  .detail-poster {
+    width: 300px !important;
+    height: 450px !important;
+  }
+
+  .detail-title {
+    font-size: 3.5rem !important;
+  }
+
+  .detail-meta span {
+    font-size: 1.3rem !important;
+    padding: 8px 18px !important;
+  }
+
+  .detail-btn {
+    padding: 18px 40px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .detail-overview {
+    font-size: 1.4rem !important;
+    line-height: 2 !important;
+  }
+}
+
+/* ============================================
+   PLAYER PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .player-container {
+    padding: 0 !important;
+  }
+
+  .video-player {
+    height: 250px !important;
+  }
+
+  .player-controls {
+    padding: 10px !important;
+  }
+
+  .player-info {
+    padding: 15px !important;
+  }
+
+  .player-title {
+    font-size: 1.2rem !important;
+  }
+
+  .player-description {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .video-player {
+    height: 400px !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .video-player {
+    height: 900px !important;
+  }
+
+  .player-title {
+    font-size: 2.5rem !important;
+  }
+
+  .player-description {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* ============================================
+   WATCH PARTY RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .watch-party-container {
+    flex-direction: column !important;
+  }
+
+  .watch-party-video {
+    width: 100% !important;
+    height: 250px !important;
+  }
+
+  .watch-party-sidebar {
+    width: 100% !important;
+    height: 300px !important;
+    position: relative !important;
+  }
+
+  .watch-party-chat {
+    height: 200px !important;
+  }
+
+  .watch-party-participants {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+  }
+
+  .participant-card {
+    min-width: 80px !important;
+  }
+
+  .video-tile {
+    width: 100px !important;
+    height: 75px !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .watch-party-video {
+    height: 400px !important;
+  }
+
+  .watch-party-sidebar {
+    width: 300px !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .watch-party-video {
+    height: 900px !important;
+  }
+
+  .watch-party-sidebar {
+    width: 500px !important;
+  }
+
+  .video-tile {
+    width: 300px !important;
+    height: 225px !important;
+  }
+
+  .chat-message {
+    font-size: 1.2rem !important;
+    padding: 15px !important;
+  }
+}
+
+/* ============================================
+   FRIENDS PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .friends-container {
+    padding: 10px !important;
+  }
+
+  .friends-header {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+
+  .friends-search {
+    width: 100% !important;
+  }
+
+  .friends-tabs {
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+  }
+
+  .friends-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .friend-card {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+
+  .friend-avatar {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .friend-info {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+  }
+
+  .friend-actions {
+    margin-top: 10px !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .friend-btn {
+    padding: 8px 15px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .friend-card {
+    padding: 15px !important;
+  }
+
+  .friend-avatar {
+    width: 70px !important;
+    height: 70px !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .friend-card {
+    padding: 30px !important;
+  }
+
+  .friend-avatar {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .friend-name {
+    font-size: 1.8rem !important;
+  }
+
+  .friend-username {
+    font-size: 1.2rem !important;
+  }
+
+  .friend-btn {
+    padding: 15px 30px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+/* ============================================
+   FAVORITES PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 10px !important;
+  }
+
+  .empty-favorites {
+    padding: 3rem 1rem !important;
+  }
+
+  .empty-favorites i {
+    font-size: 3rem !important;
+  }
+
+  .empty-favorites h3 {
+    font-size: 1.5rem !important;
+  }
+
+  .empty-favorites p {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .favorites-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 15px !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .favorites-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 30px !important;
+  }
+
+  .empty-favorites i {
+    font-size: 6rem !important;
+  }
+
+  .empty-favorites h3 {
+    font-size: 3rem !important;
+  }
+
+  .empty-favorites p {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* ============================================
+   NOTIFICATIONS PAGE RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .notification-item {
+    padding: 12px !important;
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+
+  .notification-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .notification-content {
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+  }
+
+  .notification-title {
+    font-size: 0.95rem !important;
+  }
+
+  .notification-message {
+    font-size: 0.85rem !important;
+  }
+
+  .notification-time {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .notification-item {
+    padding: 30px !important;
+  }
+
+  .notification-icon {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 2.5rem !important;
+  }
+
+  .notification-title {
+    font-size: 1.6rem !important;
+  }
+
+  .notification-message {
+    font-size: 1.3rem !important;
+  }
+
+  .notification-time {
+    font-size: 1.1rem !important;
+  }
+}
+
+/* ============================================
+   AUTH PAGES (LOGIN/SIGNUP) RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .auth-container {
+    padding: 20px 15px !important;
+    width: 95% !important;
+  }
+
+  .auth-form {
+    padding: 25px 20px !important;
+  }
+
+  .auth-title {
+    font-size: 1.8rem !important;
+  }
+
+  .auth-input {
+    padding: 12px 15px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .auth-btn {
+    padding: 12px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .auth-link {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .auth-container {
+    width: 500px !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .auth-container {
+    width: 800px !important;
+  }
+
+  .auth-form {
+    padding: 60px !important;
+  }
+
+  .auth-title {
+    font-size: 3rem !important;
+  }
+
+  .auth-input {
+    padding: 20px 25px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .auth-btn {
+    padding: 20px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .auth-link {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* ============================================
+   MODALS RESPONSIVE
+   ============================================ */
+
+/* Mobile */
+@media (max-width: 767px) {
+  .modal-content {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 10px !important;
+  }
+
+  .modal-header {
+    padding: 15px !important;
+  }
+
+  .modal-title {
+    font-size: 1.2rem !important;
+  }
+
+  .modal-body {
+    padding: 15px !important;
+  }
+
+  .modal-footer {
+    padding: 15px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .modal-btn {
+    width: 100% !important;
+  }
+}
+
+/* Large Desktop/TV */
+@media (min-width: 1921px) {
+  .modal-content {
+    max-width: 1200px !important;
+  }
+
+  .modal-title {
+    font-size: 2.5rem !important;
+  }
+
+  .modal-body {
+    font-size: 1.3rem !important;
+    padding: 40px !important;
+  }
+
+  .modal-btn {
+    padding: 18px 35px !important;
+    font-size: 1.2rem !important;
+  }
+}
