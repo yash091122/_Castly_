@@ -1,0 +1,534 @@
+/* ============================================
+   SKELETON SHIMMER ANIMATION
+   ============================================ */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.03) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* ============================================
+   HOME PAGE SKELETON
+   ============================================ */
+.skeleton-page-header {
+    margin-bottom: 40px;
+}
+
+.skeleton-title {
+    width: 200px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 12px;
+}
+
+.skeleton-subtitle {
+    width: 300px;
+    height: 20px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-movie-row {
+    margin-bottom: 50px;
+}
+
+.skeleton-row-title {
+    width: 180px;
+    height: 28px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
+.skeleton-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.skeleton-content-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.skeleton-card-image {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-card-content {
+    padding: 12px;
+}
+
+.skeleton-card-title {
+    width: 80%;
+    height: 18px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 8px;
+}
+
+.skeleton-card-meta {
+    width: 60%;
+    height: 14px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   MOVIE/SERIES DETAIL SKELETON
+   ============================================ */
+.skeleton-mdp-hero,
+.skeleton-sdp-hero {
+    position: relative;
+    min-height: 600px;
+    display: flex;
+    align-items: flex-end;
+    padding: 60px 40px;
+    margin-bottom: 40px;
+}
+
+.skeleton-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.skeleton-meta-badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.skeleton-badge {
+    width: 60px;
+    height: 28px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-mdp-title,
+.skeleton-sdp-title {
+    width: 400px;
+    height: 60px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
+.skeleton-meta-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.skeleton-meta-item {
+    width: 100px;
+    height: 20px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-description {
+    margin-bottom: 30px;
+}
+
+.skeleton-desc-line {
+    width: 100%;
+    max-width: 600px;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+}
+
+.skeleton-action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.skeleton-btn-primary {
+    width: 150px;
+    height: 50px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.skeleton-btn-secondary {
+    width: 120px;
+    height: 50px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-section {
+    margin-bottom: 50px;
+    padding: 0 40px;
+}
+
+.skeleton-section-title {
+    width: 200px;
+    height: 32px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 25px;
+}
+
+/* Cast Grid */
+.skeleton-cast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+}
+
+.skeleton-cast-card {
+    text-align: center;
+}
+
+.skeleton-cast-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 auto 12px;
+}
+
+.skeleton-cast-name {
+    width: 80%;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 auto 8px;
+}
+
+.skeleton-cast-role {
+    width: 60%;
+    height: 14px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 0 auto;
+}
+
+/* Seasons & Episodes */
+.skeleton-season-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.skeleton-season-btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.skeleton-episode-card {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.skeleton-episode-thumb {
+    width: 120px;
+    height: 70px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.skeleton-episode-info {
+    flex: 1;
+}
+
+.skeleton-episode-title {
+    width: 100%;
+    height: 18px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 10px;
+}
+
+.skeleton-episode-meta {
+    width: 70%;
+    height: 14px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   PLAYER SKELETON
+   ============================================ */
+.player-skeleton-container {
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+.skeleton-video-player {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skeleton-play-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.skeleton-controls-bar {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.skeleton-progress-bar {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+}
+
+.skeleton-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skeleton-control-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.skeleton-control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.skeleton-time-display {
+    width: 80px;
+    height: 20px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.skeleton-info-panel {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.skeleton-info-title {
+    width: 300px;
+    height: 24px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.skeleton-info-meta {
+    width: 200px;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   WATCH PARTY SKELETON
+   ============================================ */
+.watch-party-skeleton-container {
+    display: flex;
+    height: 100vh;
+    background: #0a0a0a;
+}
+
+.skeleton-wp-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.skeleton-wp-video {
+    flex: 1;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 20px;
+}
+
+.skeleton-wp-participants {
+    display: flex;
+    gap: 12px;
+    height: 140px;
+}
+
+.skeleton-wp-participant {
+    width: 180px;
+    height: 100%;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-wp-sidebar {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.skeleton-wp-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.skeleton-wp-tab {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-wp-chat {
+    flex: 1;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.skeleton-wp-message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.skeleton-wp-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.skeleton-wp-message-content {
+    flex: 1;
+}
+
+.skeleton-wp-message-text {
+    width: 100%;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 8px;
+}
+
+.skeleton-wp-input {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   FAVORITES SKELETON
+   ============================================ */
+.skeleton-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.skeleton-tab {
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.skeleton-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .skeleton-cards-grid,
+    .skeleton-content-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .skeleton-mdp-title,
+    .skeleton-sdp-title {
+        width: 100%;
+        max-width: 300px;
+        height: 40px;
+    }
+
+    .skeleton-section {
+        padding: 0 20px;
+    }
+
+    .skeleton-mdp-hero,
+    .skeleton-sdp-hero {
+        padding: 40px 20px;
+        min-height: 400px;
+    }
+
+    .skeleton-episodes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .watch-party-skeleton-container {
+        flex-direction: column;
+    }
+
+    .skeleton-wp-sidebar {
+        width: 100%;
+        height: 300px;
+    }
+
+    .skeleton-wp-participants {
+        overflow-x: auto;
+    }
+}
