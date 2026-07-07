@@ -15,8 +15,8 @@ export const movies = {
         year: '2013',
         duration: '2h 20m',
         description: 'A passionate young man falls deeply in love and goes to extreme lengths to win the heart of the woman he desires, leading to an emotional journey of obsession, sacrifice, and redemption.',
-        posterUrl: 'https://assets-in.bmscdn.com/discovery-catalog/events/et00447585-dpxgkajkqu-landscape.jpg',
-        backdropUrl: '/assets/ek-deewane-ki-deewaniyat-backdrop.jpg',
+        posterUrl: 'https://wallpapercave.com/wp/wp15917490.jpg',
+        backdropUrl: 'https://wallpapercave.com/wp/wp15917490.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=YOUR_TRAILER_LINK',
         videoUrl: 'https://s3.tebi.io/moviesott/Ek.Deewane.Ki.Deewaniyat.2025.720p.Hindi.DS4K.WEB-DL.5.1.x264.mkv'
     },
@@ -54,8 +54,8 @@ export const movies = {
         year: '2009',
         duration: '2h 50m',
         description: 'Two friends are searching for their long lost companion. They revisit their college days and recall the memories of their friend who inspired them to think differently.',
-        posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/df/3_idiots_poster.jpg',
-        backdropUrl: '/assets/3-idiots-backdrop.jpg',
+        posterUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTho8rAiVeMC8iT6qxNDI9b-Eg3-7BaNjR0S6xXF_0F0g&s=10',
+        backdropUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTho8rAiVeMC8iT6qxNDI9b-Eg3-7BaNjR0S6xXF_0F0g&s=10',
         trailerUrl: 'https://www.youtube.com/watch?v=K0eDlFX9GMc',
         videoUrl: sampleVideos[0]
     },
@@ -67,8 +67,8 @@ export const movies = {
         year: '2016',
         duration: '2h 41m',
         description: 'Former wrestler Mahavir Singh Phogat and his two wrestler daughters struggle towards glory at the Commonwealth Games in the face of societal oppression.',
-        posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/99/Dangal_Poster.jpg',
-        backdropUrl: '/assets/dangal-backdrop.jpg',
+        posterUrl: 'https://assets-in.bmscdn.com/discovery-catalog/events/et00033292-yqlxhqwthg-landscape.jpg',
+        backdropUrl: 'https://assets-in.bmscdn.com/discovery-catalog/events/et00033292-yqlxhqwthg-landscape.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=x_7YlGv9u1g',
         videoUrl: sampleVideos[1]
     },
@@ -80,8 +80,8 @@ export const movies = {
         year: '2001',
         duration: '3h 30m',
         description: 'Yashvardhan Raichand lives a very wealthy lifestyle along with his wife, Nandini, and two sons, Rahul and Rohan. Things change when Rahul falls in love with a poor girl.',
-        posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/c5/Kabhi_Khushi_Kabhie_Gham_poster.jpg',
-        backdropUrl: '/assets/k3g-backdrop.jpg',
+        posterUrl: 'https://indianetzone.wordpress.com/wp-content/uploads/2019/01/kabhi-khushi-kabhie-gham_1000x563.jpg?w=760',
+        backdropUrl: 'https://indianetzone.wordpress.com/wp-content/uploads/2019/01/kabhi-khushi-kabhie-gham_1000x563.jpg?w=760',
         trailerUrl: 'https://www.youtube.com/watch?v=7uY1JbWZKkM',
         videoUrl: sampleVideos[2]
     },
@@ -93,8 +93,8 @@ export const movies = {
         year: '1975',
         duration: '3h 24m',
         description: 'After his family is murdered by a notorious and ruthless bandit, a former police officer enlists the services of two outlaws to capture the bandit.',
-        posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/52/Sholay-poster.jpg',
-        backdropUrl: '/assets/sholay-backdrop.jpg',
+        posterUrl: 'https://m.media-amazon.com/images/I/61PyG9n9U9L.jpg',
+        backdropUrl: 'https://m.media-amazon.com/images/I/61PyG9n9U9L.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=qE3OQ_T9Poo',
         videoUrl: sampleVideos[0]
     },
@@ -106,8 +106,8 @@ export const movies = {
         year: '2001',
         duration: '3h 44m',
         description: 'The people of a small village in Victorian India stake their future on a game of cricket against their ruthless British rulers.',
-        posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b6/Lagaan.jpg',
-        backdropUrl: '/assets/lagaan-backdrop.jpg',
+        posterUrl: 'https://learningandcreativity.com/silhouette/wp-content/uploads/sites/3/2020/06/lagaan-poster.jpg',
+        backdropUrl: 'https://learningandcreativity.com/silhouette/wp-content/uploads/sites/3/2020/06/lagaan-poster.jpg',
         trailerUrl: 'https://www.youtube.com/watch?v=oSIGQ0YkFcg',
         videoUrl: sampleVideos[1]
     }
