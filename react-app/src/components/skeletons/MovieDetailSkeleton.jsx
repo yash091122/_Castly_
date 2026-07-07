@@ -59,21 +59,7 @@ const MovieDetailSkeleton = () => {
                     </div>
                 </section>
 
-                {/* Similar Movies Section Skeleton */}
-                <section className="skeleton-section">
-                    <div className="skeleton-section-title skeleton-shimmer"></div>
-                    <div className="skeleton-cards-grid">
-                        {[...Array(4)].map((_, i) => (
-                            <div key={i} className="skeleton-content-card">
-                                <div className="skeleton-card-image skeleton-shimmer"></div>
-                                <div className="skeleton-card-content">
-                                    <div className="skeleton-card-title skeleton-shimmer"></div>
-                                    <div className="skeleton-card-meta skeleton-shimmer"></div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+
             </div>
         </div>
     );

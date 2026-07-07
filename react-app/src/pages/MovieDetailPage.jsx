@@ -22,7 +22,6 @@ function MovieDetailPage() {
     const [movie, setMovie] = useState(null);
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [showTrailerModal, setShowTrailerModal] = useState(false);
-    const [similarMovies, setSimilarMovies] = useState([]);
     const [friendsWhoWatched, setFriendsWhoWatched] = useState([]);
 
     useEffect(() => {
@@ -37,12 +36,6 @@ function MovieDetailPage() {
 
             if (movieData) {
                 setMovie(movieData);
-                // Get similar movies by genre - use ContentContext if available
-                const allMovies = movies.length > 0 ? movies : getStaticMovies();
-                const similar = allMovies.filter(m =>
-                    (m.genre === movieData.genre || m.genre?.includes(movieData.genre)) && m.id !== id
-                ).slice(0, 4);
-                setSimilarMovies(similar);
                 // Mock friends who watched
                 setFriendsWhoWatched(friends.slice(0, 3));
             }
@@ -152,39 +145,6 @@ function MovieDetailPage() {
                         </div>
                     </div>
                 </section>
-
-                {/* Similar Movies Rail */}
-                {similarMovies.length > 0 && (
-                    <section className="mdp-content-section">
-                        <div className="mdp-rail-header">
-                            <h2>Similar Movies</h2>
-                        </div>
-                        <div className="mdp-horizontal-rail">
-                            {similarMovies.map((item, index) => (
-                                <div
-                                    key={item.id}
-                                    className="mdp-rail-card"
-                                    style={{ animationDelay: `${index * 50}ms` }}
-                                    onClick={() => navigate(`/movie/${item.id}`)}
-                                >
-                                    <div className="mdp-card-bg-blur">
-                                        <img src={item.posterUrl} alt={item.title} />
-                                    </div>
-                                    <div className="mdp-card-content">
-                                        <div className="mdp-card-badge">
-                                            <Star size={12} fill="#fbbf24" stroke="#fbbf24" />
-                                            {item.rating}
-                                        </div>
-                                        <div className="mdp-card-bottom">
-                                            <h4 className="mdp-card-title">{item.title}</h4>
-                                            <div className="mdp-card-year">{item.year}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                )}
             </div>
 
 
