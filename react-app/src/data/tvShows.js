@@ -161,164 +161,115 @@ export const tvShowsData = {
             }
         ]
     },
-    'the-crown': {
-        id: 'the-crown',
-        title: 'The Crown',
-        posterUrl: '/assets/the-crown.jpg',
-        backdropUrl: '/assets/the-crown-backdrop.jpg',
-        rating: '8.6',
-        year: '2016',
-        seasonCount: 6,
-        episodeCount: 60,
-        genre: ['Drama', 'History', 'Biography'],
-        description: 'The story of Queen Elizabeth II\'s reign and the events that shaped the second half of the twentieth century.',
-        trailerUrl: 'https://www.youtube.com/watch?v=JWtnJjn6ng0',
+    'mirzapur': {
+        id: 'mirzapur',
+        title: 'Mirzapur',
+        posterUrl: 'https://m.media-amazon.com/images/I/715QeQWqgPL.jpg',
+        backdropUrl: 'https://m.media-amazon.com/images/I/715QeQWqgPL.jpg',
+        rating: '8.5',
+        year: '2018',
+        seasonCount: 3,
+        episodeCount: 29,
+        genre: ['Crime', 'Drama', 'Action'],
+        description: 'A shocking incident at a wedding procession ignites a series of events entangling the lives of two families in the lawless city of Mirzapur.',
+        trailerUrl: 'https://www.youtube.com/watch?v=ZNeGF-PvRqw',
         cast: [
-            { id: 1, name: 'Claire Foy', role: 'Queen Elizabeth II', image: '/assets/cast/claire.jpg' },
-            { id: 2, name: 'Matt Smith', role: 'Prince Philip', image: '/assets/cast/matt.jpg' }
+            { id: 1, name: 'Pankaj Tripathi', role: 'Kaleen Bhaiya', image: '/assets/cast/pankaj.jpg' },
+            { id: 2, name: 'Ali Fazal', role: 'Guddu Pandit', image: '/assets/cast/ali.jpg' }
         ],
-        creator: 'Peter Morgan',
+        creator: 'Karan Anshuman, Puneet Krishna',
         seasons: [
             {
                 seasonNumber: 1,
                 title: 'Season 1',
-                year: '2016',
-                episodeCount: 10,
+                year: '2018',
+                episodeCount: 9,
                 episodes: [
                     {
-                        id: 'tc-s1-e1',
+                        id: 'mz-s1-e1',
                         episodeNumber: 1,
-                        title: 'Wolferton Splash',
-                        duration: '56m',
-                        description: 'Princess Elizabeth and Prince Philip marry. King George VI\'s health worsens, while Winston Churchill is elected Prime Minister for the second time.',
-                        thumbnailUrl: '/assets/episodes/tc-s1-e1.jpg',
-                        videoUrl: sampleVideos[2],
-                        airDate: '2016-11-04'
-                    }
-                ]
-            }
-        ]
-    },
-
-    'game-of-thrones': {
-        id: 'game-of-thrones',
-        title: 'Game of Thrones',
-        posterUrl: '/assets/game-of-thrones.jpg',
-        backdropUrl: '/assets/game-of-thrones-backdrop.jpg',
-        rating: '9.2',
-        year: '2011',
-        seasonCount: 8,
-        episodeCount: 73,
-        genre: ['Fantasy', 'Drama', 'Action'],
-        description: 'Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.',
-        trailerUrl: 'https://www.youtube.com/watch?v=KPLWWIOCOOQ',
-        cast: [
-            { id: 1, name: 'Emilia Clarke', role: 'Daenerys Targaryen', image: '/assets/cast/emilia.jpg' },
-            { id: 2, name: 'Kit Harington', role: 'Jon Snow', image: '/assets/cast/kit.jpg' }
-        ],
-        creator: 'David Benioff, D.B. Weiss',
-        seasons: [
-            {
-                seasonNumber: 1,
-                title: 'Season 1',
-                year: '2011',
-                episodeCount: 10,
-                episodes: [
-                    {
-                        id: 'got-s1-e1',
-                        episodeNumber: 1,
-                        title: 'Winter Is Coming',
-                        duration: '62m',
-                        description: 'Eddard Stark is torn between his family and an old friend when asked to serve at the side of King Robert Baratheon.',
-                        thumbnailUrl: '/assets/episodes/got-s1-e1.jpg',
-                        videoUrl: sampleVideos[3],
-                        airDate: '2011-04-17'
-                    },
-                    {
-                        id: 'got-s1-e2',
-                        episodeNumber: 2,
-                        title: 'The Kingsroad',
-                        duration: '56m',
-                        description: 'While Bran recovers from his fall, Ned takes only his daughters to King\'s Landing. Jon Snow goes with his uncle Benjen to the Wall.',
-                        thumbnailUrl: '/assets/episodes/got-s1-e2.jpg',
+                        title: 'Jhandu',
+                        duration: '50m',
+                        description: 'A shocking incident at a wedding procession ignites a series of events.',
+                        thumbnailUrl: 'https://m.media-amazon.com/images/I/715QeQWqgPL.jpg',
                         videoUrl: sampleVideos[0],
-                        airDate: '2011-04-24'
+                        airDate: '2018-11-16'
                     }
                 ]
             }
         ]
     },
-    'the-witcher': {
-        id: 'the-witcher',
-        title: 'The Witcher',
-        posterUrl: '/assets/the-witcher.jpg',
-        backdropUrl: '/assets/the-witcher-backdrop.jpg',
-        rating: '8.0',
-        year: '2019',
+    'scam-1992': {
+        id: 'scam-1992',
+        title: 'Scam 1992',
+        posterUrl: 'https://m.media-amazon.com/images/I/71oD1sE37LL.jpg',
+        backdropUrl: 'https://m.media-amazon.com/images/I/71oD1sE37LL.jpg',
+        rating: '9.3',
+        year: '2020',
+        seasonCount: 1,
+        episodeCount: 10,
+        genre: ['Biography', 'Crime', 'Drama'],
+        description: 'Set in 1980\'s and 90\'s Bombay, it follows the life of Harshad Mehta, a stockbroker who took the stock market to dizzying heights and his catastrophic downfall.',
+        trailerUrl: 'https://www.youtube.com/watch?v=ISORiefWEh8',
+        cast: [
+            { id: 1, name: 'Pratik Gandhi', role: 'Harshad Mehta', image: '/assets/cast/pratik.jpg' },
+            { id: 2, name: 'Shreya Dhanwanthary', role: 'Sucheta Dalal', image: '/assets/cast/shreya.jpg' }
+        ],
+        creator: 'Hansal Mehta',
+        seasons: [
+            {
+                seasonNumber: 1,
+                title: 'Season 1',
+                year: '2020',
+                episodeCount: 10,
+                episodes: [
+                    {
+                        id: 'scam-s1-e1',
+                        episodeNumber: 1,
+                        title: 'Risk Hai Toh Ishq Hai',
+                        duration: '45m',
+                        description: 'Harshad Mehta starts his journey in the stock market.',
+                        thumbnailUrl: 'https://m.media-amazon.com/images/I/71oD1sE37LL.jpg',
+                        videoUrl: sampleVideos[1],
+                        airDate: '2020-10-09'
+                    }
+                ]
+            }
+        ]
+    },
+    'panchayat': {
+        id: 'panchayat',
+        title: 'Panchayat',
+        posterUrl: 'https://m.media-amazon.com/images/I/71pE1+U0PFL.jpg',
+        backdropUrl: 'https://m.media-amazon.com/images/I/71pE1+U0PFL.jpg',
+        rating: '8.9',
+        year: '2020',
         seasonCount: 3,
         episodeCount: 24,
-        genre: ['Fantasy', 'Action', 'Adventure'],
-        description: 'Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.',
-        trailerUrl: 'https://www.youtube.com/watch?v=ndl1W4ltcmg',
+        genre: ['Comedy', 'Drama'],
+        description: 'A comedy-drama, which captures the journey of an engineering graduate Abhishek, who for lack of a better job option joins as secretary of a panchayat office in a remote village of Uttar Pradesh.',
+        trailerUrl: 'https://www.youtube.com/watch?v=mojZ5qwUMMs',
         cast: [
-            { id: 1, name: 'Henry Cavill', role: 'Geralt of Rivia', image: '/assets/cast/henry.jpg' },
-            { id: 2, name: 'Anya Chalotra', role: 'Yennefer', image: '/assets/cast/anya.jpg' }
+            { id: 1, name: 'Jitendra Kumar', role: 'Abhishek Tripathi', image: '/assets/cast/jitendra.jpg' },
+            { id: 2, name: 'Raghubir Yadav', role: 'Brij Bhushan Dubey', image: '/assets/cast/raghubir.jpg' }
         ],
-        creator: 'Lauren Schmidt Hissrich',
+        creator: 'Deepak Kumar Mishra',
         seasons: [
             {
                 seasonNumber: 1,
                 title: 'Season 1',
-                year: '2019',
+                year: '2020',
                 episodeCount: 8,
                 episodes: [
                     {
-                        id: 'tw-s1-e1',
+                        id: 'pn-s1-e1',
                         episodeNumber: 1,
-                        title: 'The End\'s Beginning',
-                        duration: '61m',
-                        description: 'Geralt of Rivia, a mutated monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.',
-                        thumbnailUrl: '/assets/episodes/tw-s1-e1.jpg',
-                        videoUrl: sampleVideos[1],
-                        airDate: '2019-12-20'
-                    }
-                ]
-            }
-        ]
-    },
-    'dark': {
-        id: 'dark',
-        title: 'Dark',
-        posterUrl: '/assets/dark.jpg',
-        backdropUrl: '/assets/dark-backdrop.jpg',
-        rating: '8.7',
-        year: '2017',
-        seasonCount: 3,
-        episodeCount: 26,
-        genre: ['Sci-Fi', 'Thriller', 'Mystery'],
-        description: 'A family saga with a supernatural twist, set in a German town where the disappearance of two young children exposes the relationships among four families.',
-        trailerUrl: 'https://www.youtube.com/watch?v=rrwycJ08PSA',
-        cast: [
-            { id: 1, name: 'Louis Hofmann', role: 'Jonas Kahnwald', image: '/assets/cast/louis.jpg' },
-            { id: 2, name: 'Lisa Vicari', role: 'Martha Nielsen', image: '/assets/cast/lisa.jpg' }
-        ],
-        creator: 'Baran bo Odar, Jantje Friese',
-        seasons: [
-            {
-                seasonNumber: 1,
-                title: 'Season 1',
-                year: '2017',
-                episodeCount: 10,
-                episodes: [
-                    {
-                        id: 'dk-s1-e1',
-                        episodeNumber: 1,
-                        title: 'Secrets',
-                        duration: '51m',
-                        description: 'In 2019, a local boy\'s disappearance stokes fear in the residents of Winden, a small German town with a strange and tragic history.',
-                        thumbnailUrl: '/assets/episodes/dk-s1-e1.jpg',
+                        title: 'Gram Panchayat Phulera',
+                        duration: '35m',
+                        description: 'Abhishek Tripathi arrives in Phulera.',
+                        thumbnailUrl: 'https://m.media-amazon.com/images/I/71pE1+U0PFL.jpg',
                         videoUrl: sampleVideos[2],
-                        airDate: '2017-12-01'
+                        airDate: '2020-04-03'
                     }
                 ]
             }
