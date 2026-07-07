@@ -115,8 +115,8 @@ export const tvShowsData = {
     'breaking-bad': {
         id: 'breaking-bad',
         title: 'Breaking Bad',
-        posterUrl: '/assets/breaking-bad.jpg',
-        backdropUrl: '/assets/breaking-bad-backdrop.jpg',
+        posterUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmFvLf6sFLAwApSKkllc-p6ZZ6SVRruqpcQoeJ6Xiyw&s=10',
+        backdropUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDmFvLf6sFLAwApSKkllc-p6ZZ6SVRruqpcQoeJ6Xiyw&s=10',
         rating: '9.5',
         year: '2008',
         seasonCount: 5,
@@ -164,8 +164,8 @@ export const tvShowsData = {
     'mirzapur': {
         id: 'mirzapur',
         title: 'Mirzapur',
-        posterUrl: 'https://m.media-amazon.com/images/I/715QeQWqgPL.jpg',
-        backdropUrl: 'https://m.media-amazon.com/images/I/715QeQWqgPL.jpg',
+        posterUrl: 'https://m.media-amazon.com/images/I/91Wr90x8YmL._AC_UF894,1000_QL80_.jpg',
+        backdropUrl: 'https://m.media-amazon.com/images/I/91Wr90x8YmL._AC_UF894,1000_QL80_.jpg',
         rating: '8.5',
         year: '2018',
         seasonCount: 3,
@@ -202,8 +202,8 @@ export const tvShowsData = {
     'scam-1992': {
         id: 'scam-1992',
         title: 'Scam 1992',
-        posterUrl: 'https://m.media-amazon.com/images/I/71oD1sE37LL.jpg',
-        backdropUrl: 'https://m.media-amazon.com/images/I/71oD1sE37LL.jpg',
+        posterUrl: 'https://www.insideboxoffice.com/wp-content/uploads/2024/12/Scam-1992-Copy.jpg',
+        backdropUrl: 'https://www.insideboxoffice.com/wp-content/uploads/2024/12/Scam-1992-Copy.jpg',
         rating: '9.3',
         year: '2020',
         seasonCount: 1,
@@ -240,8 +240,8 @@ export const tvShowsData = {
     'panchayat': {
         id: 'panchayat',
         title: 'Panchayat',
-        posterUrl: 'https://m.media-amazon.com/images/I/71pE1+U0PFL.jpg',
-        backdropUrl: 'https://m.media-amazon.com/images/I/71pE1+U0PFL.jpg',
+        posterUrl: 'https://mir-s3-cdn-cf.behance.net/projects/404/4ae83f198831413.Y3JvcCw0ODA3LDM3NjAsNDE2LDA.jpg',
+        backdropUrl: 'https://mir-s3-cdn-cf.behance.net/projects/404/4ae83f198831413.Y3JvcCw0ODA3LDM3NjAsNDE2LDA.jpg',
         rating: '8.9',
         year: '2020',
         seasonCount: 3,
