@@ -515,22 +515,5 @@ For support, email support@castly.com or join our Discord server.
 
 ---
 
-## 📸 Screenshots
 
-### Home Page
-![Home](docs/screenshots/home.png)
-
-### Watch Party
-![Watch Party](docs/screenshots/watch-party.png)
-
-### Friends
-![Friends](docs/screenshots/friends.png)
-
-### Mobile View
-![Mobile](docs/screenshots/mobile.png)
-
----
-
-**Last Updated**: February 2026
-**Version**: 1.0.0
 **Status**: Production Ready ✅
